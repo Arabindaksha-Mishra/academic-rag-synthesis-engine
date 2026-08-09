@@ -103,8 +103,9 @@ academic-rag-synthesis-engine/
 │   └── rubrics/                        # Official Assignment Specifications (SE_Assignment_2026.pdf)
 │
 ├── docs/                               # Architecture & Technical Guides
+│   ├── CONCEPTS_AND_THEORY_GUIDE.md    # Comprehensive Software Engineering & RAG Concepts
 │   ├── RAG_ARCHITECTURE.md             # RAG Engine Retrieval & Pipeline Architecture
-│   ├── TECHNICAL_MENTOR_GUIDE.md       # Comprehensive Technical & Evaluation Guide
+│   ├── TECHNICAL_MENTOR_GUIDE.md       # Technical Architecture & Evaluation Guide
 │   └── assets/                         # Architecture Diagrams & Visual Assets
 │       └── rag_architecture.svg
 │
