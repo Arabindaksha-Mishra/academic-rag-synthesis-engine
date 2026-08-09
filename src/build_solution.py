@@ -1,293 +1,231 @@
-#!/usr/bin/env python3
-"""
-Generate Perfect, Flawless PDF & DOCX Deliverables
-Uses direct embedded vector SVGs for all 5 diagrams, ensuring:
-- 0% Syntax errors
-- 0% Clumsy or cramped layout
-- Beautiful colors, spacious layering, and crystal clear typography.
+"""Solution Deliverable & Report Builder Engine.
+
+Coordinates Markdown rendering, SVG diagram injection, and publication-grade
+A4 PDF generation via headless Google Chrome.
 """
 
+from __future__ import annotations
+
+import logging
 import os
-import subprocess
-import re
-from markdown_it import MarkdownIt
-try:
-    from src.vector_svgs import (
-        get_context_svg,
-        get_use_case_svg,
-        get_activity_svg,
-        get_class_diagram_svg,
-        get_microservices_svg
+import sys
+from pathlib import Path
+from typing import Final
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+from src.data_modal import BuilderConfig, BuildResult
+from src.utils import (
+    DiagramProcessor,
+    HeadlessPDFCompiler,
+    MarkdownDocumentRenderer,
+)
+from src.vector_svgs import (
+    get_all_diagrams,
+)
+
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s [%(levelname)s] %(name)s: %(message)s"
+)
+logger: Final[logging.Logger] = logging.getLogger("SolutionBuilder")
+
+
+def read_text_file(file_path: str) -> str:
+    """Reads UTF-8 text content from a file path.
+
+    Args:
+        file_path: Target file path.
+
+    Returns:
+        str: Decoded file content.
+    """
+    with open(file_path, "r", encoding="utf-8") as file_handle:
+        return file_handle.read()
+
+
+def write_text_file(file_path: str, content: str) -> None:
+    """Writes a text string to a target destination file path.
+
+    Args:
+        file_path: Destination file path.
+        content: UTF-8 text string to write.
+    """
+    with open(file_path, "w", encoding="utf-8") as file_handle:
+        file_handle.write(content)
+
+
+def compute_file_size_kb(file_path: str) -> float:
+    """Computes file size in kilobytes.
+
+    Args:
+        file_path: Target file path.
+
+    Returns:
+        float: File size in KB, or 0.0 if file is missing.
+    """
+    if os.path.exists(file_path):
+        return os.path.getsize(file_path) / 1024.0
+    return 0.0
+
+
+def render_markdown_with_svgs(
+    raw_markdown: str,
+    renderer: MarkdownDocumentRenderer,
+    svg_diagrams: list[str],
+) -> str:
+    """Processes Markdown text, substitutes diagrams, and renders HTML body.
+
+    Args:
+        raw_markdown: Input Markdown source text.
+        renderer: Initialized MarkdownDocumentRenderer instance.
+        svg_diagrams: Ordered list of SVG diagram XML strings.
+
+    Returns:
+        str: HTML body markup with injected vector diagrams.
+    """
+    processed_md, count = DiagramProcessor.replace_mermaid_with_placeholders(
+        markdown_content=raw_markdown
     )
-except ImportError:
-    from vector_svgs import (
-        get_context_svg,
-        get_use_case_svg,
-        get_activity_svg,
-        get_class_diagram_svg,
-        get_microservices_svg
+    logger.info(f"Replaced {count} Mermaid blocks with vector SVG placeholders.")
+
+    body_html: str = renderer.render_body(processed_md)
+    return DiagramProcessor.inject_vector_svgs(
+        html_content=body_html,
+        svg_list=svg_diagrams,
     )
 
-def build_perfect_solution():
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    repo_root = os.path.abspath(os.path.join(current_dir, "..")) if os.path.basename(current_dir) == "src" else current_dir
-    out_dir = os.path.join(repo_root, "output")
-    os.makedirs(out_dir, exist_ok=True)
 
-    md_path = os.path.join(out_dir, "AeroGrid_Assignment_Solution.md")
-    html_path = os.path.join(out_dir, "AeroGrid_Assignment_Solution.html")
-    pdf_path = os.path.join(out_dir, "AeroGrid_Assignment_Solution.pdf")
-    docx_path = os.path.join(out_dir, "AeroGrid_Assignment_Solution.docx")
+def generate_html_document(
+    md_path: str,
+    html_path: str,
+    renderer: MarkdownDocumentRenderer,
+    document_title: str,
+) -> bool:
+    """Compiles a Markdown file into a formatted HTML document artifact.
 
-    with open(md_path, "r", encoding="utf-8") as f:
-        md_content = f.read()
+    Args:
+        md_path: Path to the input Markdown source file.
+        html_path: Destination path for the output HTML file.
+        renderer: Document renderer instance.
+        document_title: HTML title tag string.
 
-    # Match and replace the 5 diagrams sequentially
-    svg_map = [
-        get_context_svg(),
-        get_use_case_svg(),
-        get_activity_svg(),
-        get_class_diagram_svg(),
-        get_microservices_svg()
-    ]
+    Returns:
+        bool: True if HTML generation succeeded, False otherwise.
+    """
+    if not os.path.exists(md_path):
+        logger.error(f"Source Markdown file not found at: {md_path}")
+        return False
 
-    mermaid_blocks = re.findall(r'```mermaid\n(.*?)```', md_content, re.DOTALL)
-    print(f"Replacing {len(mermaid_blocks)} Mermaid blocks with high-resolution vector SVGs...")
+    raw_markdown: str = read_text_file(md_path)
+    svg_diagrams: list[str] = get_all_diagrams()
+    body_with_svgs: str = render_markdown_with_svgs(
+        raw_markdown=raw_markdown,
+        renderer=renderer,
+        svg_diagrams=svg_diagrams,
+    )
 
-    processed_md = md_content
-    for idx, mb in enumerate(mermaid_blocks):
-        placeholder = f"<!--VECTOR_SVG_PLACEHOLDER_{idx}-->"
-        # replace the specific code block
-        processed_md = processed_md.replace(f"```mermaid\n{mb}```", placeholder, 1)
+    full_html: str = renderer.wrap_html_template(
+        body_html=body_with_svgs,
+        document_title=document_title,
+    )
+    write_text_file(html_path, full_html)
+    logger.info(f"✓ Formatted HTML compiled at: {html_path}")
+    return True
 
-    md = MarkdownIt().enable('table')
-    body_html = md.render(processed_md)
 
-    for idx, svg_code in enumerate(svg_map):
-        placeholder = f"<!--VECTOR_SVG_PLACEHOLDER_{idx}-->"
-        svg_html = f'<div class="diagram-wrapper">{svg_code}</div>'
-        body_html = body_html.replace(f"<p>{placeholder}</p>", svg_html)
-        body_html = body_html.replace(placeholder, svg_html)
+def export_pdf_document(
+    compiler: HeadlessPDFCompiler,
+    html_path: str,
+    pdf_path: str,
+    virtual_time_budget_ms: int,
+) -> tuple[bool, float]:
+    """Compiles an HTML file into a high-resolution PDF document.
 
-    html_template = f"""<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>AeroGrid - Software Engineering Assignment Report - Arabindaksha Mishra</title>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>
-        MathJax = {{
-            tex: {{
-                inlineMath: [['$', '$'], ['\\\\(', '\\\\)']],
-                displayMath: [['$$', '$$'], ['\\\\[', '\\\\]']]
-            }}
-        }};
-    </script>
-    <style>
-        @page {{
-            size: A4;
-            margin: 20mm 16mm 20mm 16mm;
-        }}
-        
-        * {{
-            box-sizing: border-box;
-        }}
+    Args:
+        compiler: HeadlessPDFCompiler instance.
+        html_path: Source HTML file path.
+        pdf_path: Destination PDF file path.
+        virtual_time_budget_ms: JavaScript wait budget in milliseconds.
 
-        body {{
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.65;
-            color: #1e293b;
-            background-color: #ffffff;
-            margin: 0;
-            padding: 0;
-            font-size: 11.5pt;
-            letter-spacing: -0.01em;
-        }}
+    Returns:
+        tuple[bool, float]: Success flag and generated file size in KB.
+    """
+    success: bool = compiler.compile_pdf(
+        html_path=html_path,
+        pdf_path=pdf_path,
+        virtual_time_budget_ms=virtual_time_budget_ms,
+    )
+    size_kb: float = compute_file_size_kb(pdf_path) if success else 0.0
+    return success, size_kb
 
-        h1 {{
-            color: #0f172a;
-            font-size: 22pt;
-            font-weight: 700;
-            border-bottom: 2.5px solid #0284c7;
-            padding-bottom: 8px;
-            margin-top: 26pt;
-            margin-bottom: 14pt;
-            page-break-after: avoid;
-            break-after: avoid;
-        }}
 
-        h2 {{
-            color: #0284c7;
-            font-size: 16pt;
-            font-weight: 600;
-            margin-top: 20pt;
-            margin-bottom: 10pt;
-            border-bottom: 1.5px solid #e2e8f0;
-            padding-bottom: 5px;
-            page-break-after: avoid;
-            break-after: avoid;
-        }}
+class SolutionBuilder:
+    """Coordinates document rendering, diagram injection, and compilation."""
 
-        h3 {{
-            color: #1e293b;
-            font-size: 13.5pt;
-            font-weight: 600;
-            margin-top: 16pt;
-            margin-bottom: 8pt;
-            page-break-after: avoid;
-            break-after: avoid;
-        }}
+    def __init__(self, config: BuilderConfig | None = None) -> None:
+        """Initializes the solution builder with configuration parameters.
 
-        h4 {{
-            color: #334155;
-            font-size: 12pt;
-            font-weight: 600;
-            margin-top: 12pt;
-            margin-bottom: 6pt;
-            page-break-after: avoid;
-            break-after: avoid;
-        }}
+        Args:
+            config: Optional BuilderConfig instance.
+        """
+        self.config: BuilderConfig = config or BuilderConfig()
+        self.renderer: MarkdownDocumentRenderer = MarkdownDocumentRenderer(
+            page_size=self.config.page_size
+        )
+        self.pdf_compiler: HeadlessPDFCompiler = HeadlessPDFCompiler()
 
-        p {{
-            margin-top: 0;
-            margin-bottom: 10pt;
-            text-align: justify;
-        }}
+    def build(self) -> BuildResult:
+        """Executes the complete deliverable build pipeline.
 
-        table {{
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            margin: 16pt 0;
-            font-size: 10pt;
-            border-radius: 8px;
-            overflow: hidden;
-            border: 1px solid #cbd5e1;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.04);
-            page-break-inside: auto;
-            break-inside: auto;
-        }}
+        Returns:
+            BuildResult: Detailed results and generated artifact paths.
+        """
+        os.makedirs(self.config.full_output_dir, exist_ok=True)
 
-        tr {{
-            page-break-inside: avoid;
-            break-inside: avoid;
-        }}
+        doc_title: str = (
+            "AeroGrid - Software Engineering Assignment Report - Arabindaksha Mishra"
+        )
 
-        th, td {{
-            padding: 9px 12px;
-            text-align: left;
-            vertical-align: top;
-            border-bottom: 1px solid #e2e8f0;
-            border-right: 1px solid #e2e8f0;
-        }}
+        html_created: bool = generate_html_document(
+            md_path=self.config.md_path,
+            html_path=self.config.html_path,
+            renderer=self.renderer,
+            document_title=doc_title,
+        )
+        if not html_created:
+            return BuildResult(
+                success=False,
+                html_path="",
+                errors=[f"Markdown file missing: {self.config.md_path}"],
+            )
 
-        th:last-child, td:last-child {{
-            border-right: none;
-        }}
+        pdf_success, pdf_size_kb = export_pdf_document(
+            compiler=self.pdf_compiler,
+            html_path=self.config.html_path,
+            pdf_path=self.config.pdf_path,
+            virtual_time_budget_ms=self.config.virtual_time_budget_ms,
+        )
 
-        tr:last-child td {{
-            border-bottom: none;
-        }}
+        return BuildResult(
+            success=pdf_success,
+            html_path=self.config.html_path,
+            pdf_path=self.config.pdf_path if pdf_success else None,
+            pdf_size_kb=pdf_size_kb,
+        )
 
-        th {{
-            background: linear-gradient(135deg, #0284c7, #0369a1);
-            color: #ffffff;
-            font-weight: 600;
-            font-size: 10.5pt;
-        }}
 
-        tr:nth-child(even) {{
-            background-color: #f8fafc;
-        }}
-
-        blockquote {{
-            border-left: 4.5px solid #0284c7;
-            background-color: #f0f9ff;
-            margin: 12pt 0;
-            padding: 10pt 16pt;
-            color: #0369a1;
-            border-radius: 0 8px 8px 0;
-            font-size: 11pt;
-            font-style: italic;
-        }}
-
-        .diagram-wrapper {{
-            text-align: center;
-            margin: 22pt 0;
-            padding: 16pt;
-            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-            border: 1.5px solid #cbd5e1;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            page-break-inside: avoid;
-            break-inside: avoid;
-        }}
-
-        .diagram-wrapper svg {{
-            display: block;
-            margin: 0 auto;
-            max-width: 100%;
-            height: auto;
-        }}
-
-        code {{
-            background-color: #f1f5f9;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: 'Consolas', 'Courier New', monospace;
-            font-size: 9.5pt;
-            color: #0284c7;
-            font-weight: 600;
-        }}
-
-        hr {{
-            border: 0;
-            height: 1.5px;
-            background: #cbd5e1;
-            margin: 18pt 0;
-        }}
-
-        ul, ol {{
-            margin-top: 0;
-            margin-bottom: 10pt;
-            padding-left: 24px;
-        }}
-
-        li {{
-            margin-bottom: 4pt;
-        }}
-    </style>
-</head>
-<body>
-    {body_html}
-</body>
-</html>
-"""
-
-    with open(html_path, "w", encoding="utf-8") as f:
-        f.write(html_template)
-    print(f"✓ Formatted HTML with Vector SVGs created at: {html_path}")
-
-    # Render HTML to PDF via Chrome
-    cmd = [
-        "google-chrome",
-        "--headless=new",
-        "--disable-gpu",
-        "--no-sandbox",
-        "--no-pdf-header-footer",
-        "--run-all-compositor-stages-before-draw",
-        "--virtual-time-budget=9000",
-        f"--print-to-pdf={pdf_path}",
-        html_path
-    ]
-
-    print("Rendering AeroGrid PDF via Google Chrome...")
-    result = subprocess.run(cmd, capture_output=True, text=True)
-    if result.returncode == 0 and os.path.exists(pdf_path):
-        size_kb = os.path.getsize(pdf_path) / 1024
-        print(f"✓ Successfully generated Perfect AeroGrid PDF: {pdf_path} ({size_kb:.1f} KB)")
+def build_perfect_solution() -> None:
+    """Top-level execution entry point for compiling deliverables."""
+    builder: SolutionBuilder = SolutionBuilder()
+    result: BuildResult = builder.build()
+    if result.success:
+        print(
+            f"\n✨ Build Successful! PDF deliverable generated at: "
+            f"{result.pdf_path} ({result.pdf_size_kb:.1f} KB)"
+        )
     else:
-        print(f"Error during Chrome PDF generation:\n{result.stderr}")
+        print(f"\n❌ Build Failed: {result.errors}")
+
 
 if __name__ == "__main__":
     build_perfect_solution()

@@ -70,9 +70,12 @@ academic-rag-synthesis-engine/
 ├── .gitignore                          # Git Ignore Configuration
 │
 ├── src/                                # Core Engine Source Code
-│   ├── __init__.py
-│   ├── rag_pipeline.py                 # Multi-Modal Academic RAG Pipeline (ChromaDB + SentenceTransformers)
-│   ├── build_solution.py               # Document & Deliverable Builder Engine
+│   ├── __init__.py                     # Package Root & Unified Module Exports
+│   ├── data_modal.py                   # Immutable Domain Data Models & Configuration Schemas
+│   ├── data_parser.py                  # Multi-Modal Extraction Strategies & Chunking Registry
+│   ├── utils.py                        # Rendering Engine & Headless Chrome Compiler
+│   ├── rag_pipeline.py                 # Multi-Modal Academic RAG Pipeline (ChromaDB + Embeddings)
+│   ├── build_solution.py               # Document & Deliverable Builder Orchestrator
 │   └── vector_svgs.py                  # High-Resolution UML 2.5 & Architectural Vector SVG Library
 │
 ├── knowledge_base/                     # Ground Truth Knowledge & Source Materials
