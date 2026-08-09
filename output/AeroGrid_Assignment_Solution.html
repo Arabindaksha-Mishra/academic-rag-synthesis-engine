@@ -1,0 +1,1488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AeroGrid - Software Engineering Assignment Report - Arabindaksha Mishra</title>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
+    <style>
+        @page {
+            size: A4;
+            margin: 20mm 16mm 20mm 16mm;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.65;
+            color: #1e293b;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+            font-size: 11.5pt;
+            letter-spacing: -0.01em;
+        }
+
+        h1 {
+            color: #0f172a;
+            font-size: 22pt;
+            font-weight: 700;
+            border-bottom: 2.5px solid #0284c7;
+            padding-bottom: 8px;
+            margin-top: 26pt;
+            margin-bottom: 14pt;
+            page-break-after: avoid;
+            break-after: avoid;
+        }
+
+        h2 {
+            color: #0284c7;
+            font-size: 16pt;
+            font-weight: 600;
+            margin-top: 20pt;
+            margin-bottom: 10pt;
+            border-bottom: 1.5px solid #e2e8f0;
+            padding-bottom: 5px;
+            page-break-after: avoid;
+            break-after: avoid;
+        }
+
+        h3 {
+            color: #1e293b;
+            font-size: 13.5pt;
+            font-weight: 600;
+            margin-top: 16pt;
+            margin-bottom: 8pt;
+            page-break-after: avoid;
+            break-after: avoid;
+        }
+
+        h4 {
+            color: #334155;
+            font-size: 12pt;
+            font-weight: 600;
+            margin-top: 12pt;
+            margin-bottom: 6pt;
+            page-break-after: avoid;
+            break-after: avoid;
+        }
+
+        p {
+            margin-top: 0;
+            margin-bottom: 10pt;
+            text-align: justify;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 16pt 0;
+            font-size: 10pt;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #cbd5e1;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.04);
+            page-break-inside: auto;
+            break-inside: auto;
+        }
+
+        tr {
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        th, td {
+            padding: 9px 12px;
+            text-align: left;
+            vertical-align: top;
+            border-bottom: 1px solid #e2e8f0;
+            border-right: 1px solid #e2e8f0;
+        }
+
+        th:last-child, td:last-child {
+            border-right: none;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        th {
+            background: linear-gradient(135deg, #0284c7, #0369a1);
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 10.5pt;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        blockquote {
+            border-left: 4.5px solid #0284c7;
+            background-color: #f0f9ff;
+            margin: 12pt 0;
+            padding: 10pt 16pt;
+            color: #0369a1;
+            border-radius: 0 8px 8px 0;
+            font-size: 11pt;
+            font-style: italic;
+        }
+
+        .diagram-wrapper {
+            text-align: center;
+            margin: 22pt 0;
+            padding: 16pt;
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            border: 1.5px solid #cbd5e1;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        .diagram-wrapper svg {
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+            height: auto;
+        }
+
+        code {
+            background-color: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 9.5pt;
+            color: #0284c7;
+            font-weight: 600;
+        }
+
+        hr {
+            border: 0;
+            height: 1.5px;
+            background: #cbd5e1;
+            margin: 18pt 0;
+        }
+
+        ul, ol {
+            margin-top: 0;
+            margin-bottom: 10pt;
+            padding-left: 24px;
+        }
+
+        li {
+            margin-bottom: 4pt;
+        }
+    </style>
+</head>
+<body>
+    <h1>Software Engineering</h1>
+<h2>Assignment</h2>
+<p><strong>Name:</strong> Arabindaksha Mishra<br />
+<strong>ID:</strong> 202217b4513</p>
+<hr />
+<h3>1. OBJECTIVE</h3>
+<p>The objective is to Translate real-world business challenges into structured Software Requirements Specifications (SRS) using industry-standard templates. And then Develop behavioral and structural analysis models (Scenario, Flow, and Class modeling) to map out system behavior. Apply software architectural principles to design a scalable system using the 4+1 view model. And also formulate algorithmic or empirical effort estimation models to predict project resource and schedule requirements.</p>
+<h3>2. PROBLEM STATEMENT</h3>
+<p><strong>TITLE:</strong> 'AEROGRID' AUTONOMOUS DRONE EMERGENCY CORRIDOR &amp; AIRSPACE MANAGEMENT SYSTEM</p>
+<p><strong>Context:</strong>
+Your university campus and metropolitan healthcare district wants to deploy an automated Autonomous Drone Airspace &amp; Emergency Corridor Management System (AeroGrid). The campus network will feature 50 smart drone vertiports servicing emergency medical logistics (organ/blood transit), campus security surveillance UAVs, and commercial/student parcel deliveries.</p>
+<p><strong>System Challenges &amp; Core Features:</strong></p>
+<ul>
+<li><strong>Intelligent Flight Slot &amp; Corridor Allocation:</strong> Drone operators must book flight corridors and landing vertiports via an API / mobile app. The system must prioritize allocation based on mission priority (e.g., Emergency medical organ/blood transit &gt; Campus security patrol &gt; Student/commercial parcel delivery) and real-time drone telemetry (State-of-Charge SoC, altitude, payload weight).</li>
+<li><strong>Dynamic Airspace Load Balancing &amp; Sector Throttling:</strong> The low-altitude campus airspace has a strict safety capacity limit (maximum concurrent aircraft density per airspace sector). If total sector flight density exceeds 85% capacity, the system must dynamically throttle airspace throughput by issuing holding-pattern/speed-reduction commands or rerouting low-priority delivery drones to preserve an open green corridor for emergency flights.</li>
+<li><strong>Flight Billing, Air-Traffic Analytics &amp; Telemetry Integration:</strong> Automated per-kilometer / per-vertiport-use billing with real-time SCADA / UTM (Unmanned Traffic Management) dashboards for campus air traffic controllers to monitor live 3D airspace traffic, collision risks, and revenue.</li>
+</ul>
+<p>Your team has been tasked as the software engineering division to take this raw conceptual requirement through the core planning and architectural design phases.</p>
+<hr />
+<h2>Table of Contents</h2>
+<ul>
+<li><a href="#task-1-software-requirements-specification-srs">Task 1: Software Requirements Specification (SRS)</a>
+<ul>
+<li>1.1 Introduction (Purpose, Scope, Definitions)</li>
+<li>1.2 Overall System Description</li>
+<li>1.3 Specific Functional Requirements (FR-01 to FR-06)</li>
+<li>1.4 Non-Functional Requirements (NFR-01 to NFR-05) with Measurable Metrics</li>
+</ul>
+</li>
+<li><a href="#task-2-requirement-analysis--behavioral-modeling">Task 2: Requirement Analysis &amp; Behavioral Modeling</a>
+<ul>
+<li>2.1 Scenario-Based Modeling: UML Use Case Diagram &amp; Actor Matrix</li>
+<li>2.2 Formal Use Case Specification: Dynamic Airspace Throttling (UC-05)</li>
+<li>2.3 Flow &amp; Behavioral Modeling: Activity Diagram with 85% Airspace Overload Logic</li>
+</ul>
+</li>
+<li><a href="#task-3-architectural-design-41-view-model">Task 3: Architectural Design (4+1 View Model)</a>
+<ul>
+<li>3.1 Logical View: Comprehensive Domain Class Diagram</li>
+<li>3.2 Implementation &amp; Development View: Event-Driven Microservices Architecture</li>
+<li>3.3 Comparative Architectural Justification (Event-Driven vs. Monolithic)</li>
+</ul>
+</li>
+<li><a href="#task-4-project-estimation-and-sizing">Task 4: Project Estimation and Sizing</a>
+<ul>
+<li>4.1 Function Point Analysis (FPA): Unadjusted Function Points (UFP) Breakdown</li>
+<li>4.2 General System Characteristics (14 GSCs) &amp; Value Adjustment Factor (VAF)</li>
+<li>4.3 Total Adjusted Function Points (FP) Calculation</li>
+<li>4.4 Software Sizing (SLOC / KLOC Translation)</li>
+<li>4.5 Empirical Effort &amp; Schedule Estimation (Basic Organic COCOMO)</li>
+<li>4.6 Staffing, Team Roles &amp; Productivity Analysis</li>
+</ul>
+</li>
+<li><a href="#academic-references--standards-bibliography">Academic References &amp; Standards Bibliography</a></li>
+</ul>
+<hr />
+<h1>Task 1: Software Requirements Specification (SRS)</h1>
+<blockquote>
+<p><strong>Standard Compliance:</strong> Formulated in strict accordance with the <strong>IEEE 830-1998 Standard for Software Requirements Specifications</strong>.</p>
+</blockquote>
+<hr />
+<h3>1.1 Introduction</h3>
+<h4>1.1.1 Purpose</h4>
+<p>This document specifies the software requirements for the AeroGrid Autonomous Drone Airspace &amp; Emergency Corridor Management System (Release 1.0). It defines all functional interactions, operational constraints, safety thresholds, and external communication interfaces required for development and deployment.</p>
+<h4>1.1.2 Scope</h4>
+<p>AeroGrid encompasses an enterprise UTM (Unmanned Traffic Management) cloud backend, a mobile flight booking application for operators, an embedded Vertiport Pad Controller agent, and an Air Traffic Control (ATC) radar dashboard. It interfaces with civil aviation radar, onboard drone autopilots (via MAVLink / MQTT), and payment gateways.</p>
+<h4>1.1.3 Definitions, Acronyms, and Abbreviations</h4>
+<ul>
+<li><strong>UTM:</strong> Unmanned Aircraft System Traffic Management.</li>
+<li><strong>UAV:</strong> Unmanned Aerial Vehicle (Autonomous Drone).</li>
+<li><strong>Vertiport:</strong> Designated smart physical pad for drone takeoff, landing, automated battery swapping, and cargo transfer.</li>
+<li><strong>SoC ($S$):</strong> Drone battery State-of-Charge ($0% - 100%$).</li>
+<li><strong>Sector Density ($D_{\text{sector}}$):</strong> Ratio of active airborne drones to maximum allowable airspace safety limit: $D_{\text{sector}} = \frac{N_{\text{active}}}{N_{\text{max}}}$.</li>
+<li><strong>Green Corridor:</strong> Preempted, zero-latency clear flight vector reserved exclusively for critical emergency missions.</li>
+</ul>
+<hr />
+<h3>1.2 Overall System Description</h3>
+<h4>1.2.1 Product Perspective &amp; Context Architecture</h4>
+<p>AeroGrid operates as a distributed real-time cyber-physical air traffic network coordinating between autonomous aircraft, physical landing vertiports, ground radar sensors, and enterprise hospital/campus logistics.</p>
+<div class="diagram-wrapper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 950 480" width="100%" height="100%" style="background:#ffffff; font-family:'Segoe UI', Roboto, sans-serif;">
+  <defs>
+    <linearGradient id="cTierGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#f1f5f9"/>
+    </linearGradient>
+    <linearGradient id="cBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#e0f2fe"/>
+    </linearGradient>
+    <linearGradient id="cAmber" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#fef3c7"/>
+    </linearGradient>
+    <linearGradient id="cPurple" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f3e8ff"/>
+    </linearGradient>
+    <filter id="cShadow" x="-3%" y="-3%" width="106%" height="106%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.08"/>
+    </filter>
+    <marker id="cArrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#0284c7" />
+    </marker>
+  </defs>
+
+  <!-- Stakeholders Box -->
+  <g transform="translate(30, 40)" filter="url(#cShadow)">
+    <rect width="250" height="390" rx="10" fill="url(#cTierGrad)" stroke="#38bdf8" stroke-width="2"/>
+    <text x="125" y="32" text-anchor="middle" font-size="14" font-weight="bold" fill="#0369a1">Primary Stakeholders</text>
+    
+    <g transform="translate(20, 60)">
+      <rect width="210" height="130" rx="8" fill="url(#cBlue)" stroke="#38bdf8" stroke-width="1.5"/>
+      <text x="105" y="30" text-anchor="middle" font-size="13" font-weight="bold" fill="#0f172a">🚁 Drone Operators</text>
+      <text x="105" y="55" text-anchor="middle" font-size="10.5" fill="#475569">• Hospital Emergency (Organs)</text>
+      <text x="105" y="75" text-anchor="middle" font-size="10.5" fill="#475569">• Campus Security UAVs</text>
+      <text x="105" y="95" text-anchor="middle" font-size="10.5" fill="#475569">• Commercial Parcel Delivery</text>
+      <text x="105" y="115" text-anchor="middle" font-size="10" font-weight="600" fill="#0284c7">Mobile &amp; Dispatch API</text>
+    </g>
+
+    <g transform="translate(20, 220)">
+      <rect width="210" height="130" rx="8" fill="url(#cBlue)" stroke="#38bdf8" stroke-width="1.5"/>
+      <text x="105" y="35" text-anchor="middle" font-size="13" font-weight="bold" fill="#0f172a">🎛️ Campus Air Traffic</text>
+      <text x="105" y="55" text-anchor="middle" font-size="13" font-weight="bold" fill="#0f172a">Controller (ATC)</text>
+      <text x="105" y="85" text-anchor="middle" font-size="10.5" fill="#475569">• 3D Live Airspace Radar</text>
+      <text x="105" y="105" text-anchor="middle" font-size="10.5" fill="#475569">• Emergency Grounding Override</text>
+    </g>
+  </g>
+
+  <!-- AeroGrid Cloud Platform (Center Box) -->
+  <g transform="translate(340, 30)" filter="url(#cShadow)">
+    <rect width="270" height="410" rx="12" fill="url(#cTierGrad)" stroke="#0284c7" stroke-width="2.5"/>
+    <text x="135" y="32" text-anchor="middle" font-size="15" font-weight="bold" fill="#0369a1">AeroGrid Cloud Platform</text>
+    
+    <g transform="translate(25, 55)">
+      <rect width="220" height="85" rx="8" fill="url(#cBlue)" stroke="#0284c7" stroke-width="1.6"/>
+      <text x="110" y="30" text-anchor="middle" font-size="12" font-weight="bold" fill="#0369a1">Kong API Gateway &amp;</text>
+      <text x="110" y="48" text-anchor="middle" font-size="12" font-weight="bold" fill="#0369a1">EMQX MQTT Broker</text>
+      <text x="110" y="68" text-anchor="middle" font-size="10" fill="#64748b">TLS 1.3 • Token Auth</text>
+    </g>
+
+    <g transform="translate(25, 160)">
+      <rect width="220" height="85" rx="8" fill="url(#cPurple)" stroke="#9333ea" stroke-width="1.6"/>
+      <text x="110" y="30" text-anchor="middle" font-size="12" font-weight="bold" fill="#581c87">Kafka Event Backbone</text>
+      <text x="110" y="50" text-anchor="middle" font-size="10" fill="#6b21a8">High-Throughput Streaming</text>
+      <text x="110" y="68" text-anchor="middle" font-size="10" fill="#6b21a8">&gt;15,000 msgs/second</text>
+    </g>
+
+    <g transform="translate(25, 265)">
+      <rect width="220" height="115" rx="8" fill="url(#cAmber)" stroke="#f59e0b" stroke-width="2"/>
+      <text x="110" y="28" text-anchor="middle" font-size="12" font-weight="bold" fill="#78350f">Airspace Deconfliction</text>
+      <text x="110" y="46" text-anchor="middle" font-size="12" font-weight="bold" fill="#78350f">&amp; Throttling Engine</text>
+      <text x="110" y="70" text-anchor="middle" font-size="10" font-weight="600" fill="#92400e">• 85% Density Throttling</text>
+      <text x="110" y="90" text-anchor="middle" font-size="10" font-weight="600" fill="#92400e">• Green Corridor Preemption</text>
+    </g>
+  </g>
+
+  <!-- Edge & External Infrastructure (Right Box) -->
+  <g transform="translate(670, 40)" filter="url(#cShadow)">
+    <rect width="250" height="390" rx="10" fill="url(#cTierGrad)" stroke="#16a34a" stroke-width="2"/>
+    <text x="125" y="32" text-anchor="middle" font-size="14" font-weight="bold" fill="#15803d">Edge &amp; External Systems</text>
+    
+    <g transform="translate(20, 50)">
+      <rect width="210" height="65" rx="6" fill="url(#cBlue)" stroke="#38bdf8" stroke-width="1.4"/>
+      <text x="105" y="28" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#0f172a">🛸 50 Autonomous UAVs</text>
+      <text x="105" y="48" text-anchor="middle" font-size="10" fill="#475569">MAVLink / 4G Telemetry</text>
+    </g>
+
+    <g transform="translate(20, 130)">
+      <rect width="210" height="65" rx="6" fill="url(#cBlue)" stroke="#38bdf8" stroke-width="1.4"/>
+      <text x="105" y="28" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#0f172a">🛬 50 Smart Vertiports</text>
+      <text x="105" y="48" text-anchor="middle" font-size="10" fill="#475569">Pad Controllers &amp; Chargers</text>
+    </g>
+
+    <g transform="translate(20, 210)">
+      <rect width="210" height="65" rx="6" fill="url(#cBlue)" stroke="#38bdf8" stroke-width="1.4"/>
+      <text x="105" y="28" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#0f172a">📡 Campus Ground Radar</text>
+      <text x="105" y="48" text-anchor="middle" font-size="10" fill="#475569">Civil Aviation &amp; Weather SCADA</text>
+    </g>
+
+    <g transform="translate(20, 290)">
+      <rect width="210" height="65" rx="6" fill="url(#cBlue)" stroke="#38bdf8" stroke-width="1.4"/>
+      <text x="105" y="28" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#0f172a">💳 Campus ERP &amp; Billing</text>
+      <text x="105" y="48" text-anchor="middle" font-size="10" fill="#475569">Cashless Payment Gateway</text>
+    </g>
+  </g>
+
+  <!-- Connectors -->
+  <line x1="280" y1="165" x2="340" y2="135" stroke="#0284c7" stroke-width="1.8" marker-end="url(#cArrow)"/>
+  <line x1="280" y1="325" x2="340" y2="155" stroke="#0284c7" stroke-width="1.8" marker-end="url(#cArrow)"/>
+
+  <line x1="475" y1="140" x2="475" y2="160" stroke="#0284c7" stroke-width="2" marker-end="url(#cArrow)"/>
+  <line x1="475" y1="245" x2="475" y2="265" stroke="#9333ea" stroke-width="2" marker-end="url(#cArrow)"/>
+
+  <line x1="610" y1="320" x2="670" y2="82" stroke="#0284c7" stroke-width="1.8" marker-end="url(#cArrow)"/>
+  <line x1="610" y1="320" x2="670" y2="162" stroke="#0284c7" stroke-width="1.8" marker-end="url(#cArrow)"/>
+  <line x1="670" y1="242" x2="610" y2="320" stroke="#0284c7" stroke-width="1.8" marker-end="url(#cArrow)"/>
+  <line x1="610" y1="350" x2="670" y2="322" stroke="#0284c7" stroke-width="1.8" marker-end="url(#cArrow)"/>
+</svg></div>
+<h4>1.2.2 User Classes and Privilege Hierarchy</h4>
+<ol>
+<li><strong>Emergency Medical Logistics:</strong> Highest operational priority. Zero-wait green-corridor preemption for life-critical blood, organ, and antivenom transport.</li>
+<li><strong>Campus Security &amp; Public Safety:</strong> High priority for emergency perimeter monitoring, crowd control, and fire detection flights.</li>
+<li><strong>Commercial &amp; Student Delivery:</strong> Standard priority; subject to dynamic sector speed throttling, altitude holds, and off-peak scheduling.</li>
+<li><strong>Air Traffic Controller (Administrator):</strong> Full oversight of 3D airspace corridors, dynamic sector density limits, tariff rules, and manual emergency grounding.</li>
+</ol>
+<hr />
+<h3>1.3 Specific Functional Requirements</h3>
+<h4><strong>FR-01: Multi-Criteria Flight Path &amp; Vertiport Bay Reservation</strong></h4>
+<ul>
+<li><strong>Description:</strong> The system shall process flight corridor requests by computing an autonomous Priority Index ($P_i$) and reserving 3D flight waypoints and destination vertiport pads.</li>
+<li><strong>Inputs:</strong> Operator ID, Drone Hardware Model, Mission Priority Role ($R$), Battery SoC ($S$), Payload Weight ($W_{\text{load}}$), Destination Vertiport ID.</li>
+<li><strong>Processing Logic:</strong>
+<ol>
+<li>Calculate dynamic priority:
+$$P_i = (w_r \cdot R_{\text{weight}}) + \left(w_s \cdot \frac{S}{100}\right) + \left(w_p \cdot \frac{1}{1 + W_{\text{load}}}\right)$$
+Where weights are $w_r = 0.60$, $w_s = 0.25$, $w_p = 0.15$, with role ratings: $\text{Emergency Medical}=100$, $\text{Security}=75$, $\text{Student Delivery}=40$.</li>
+<li>The system checks spatial-temporal waypoint availability to prevent 4D trajectory conflicts.</li>
+</ol>
+</li>
+<li><strong>Outputs:</strong> Cryptographic Flight Authorization Token, 3D Waypoint Route, Assigned Vertiport Pad ID.</li>
+</ul>
+<h4><strong>FR-02: Remote ID Verification &amp; Pre-Flight Telemetry Handshake</strong></h4>
+<ul>
+<li><strong>Description:</strong> The system shall authenticate drone Remote ID (FAA Part 89 compliant) and verify battery/weather readiness before arming motors.</li>
+<li><strong>Inputs:</strong> Digital Certificate, GPS fix ($&gt; 10\text{ satellites}$), Compass calibration, SoC $&gt; 40\%$.</li>
+<li><strong>Processing:</strong> The vertiport pad controller verifies clearance token with AeroGrid Cloud. Pad locks disengage and clearance beacon illuminates.</li>
+<li><strong>Outputs:</strong> Takeoff Clearance Signal, Status logged in flight telemetry database.</li>
+</ul>
+<h4><strong>FR-03: Real-Time Dynamic Airspace Load Balancing &amp; Sector Throttling</strong></h4>
+<ul>
+<li><strong>Description:</strong> The system shall monitor live aircraft density per airspace sector and dynamically throttle traffic when density exceeds $85\%$.</li>
+<li><strong>Inputs:</strong> Real-time 3D telemetry stream ($X, Y, Z, V_{\text{ground}}, S$) broadcast at $2\text{ Hz}$ per aircraft.</li>
+<li><strong>Processing Logic:</strong>
+<ol>
+<li>Compute sector density: $D_{\text{sector}} = \frac{N_{\text{active}}}{N_{\text{max}}}$.</li>
+<li>If $D_{\text{sector}} &gt; 0.85$ ($85\%$ safety ceiling):
+<ul>
+<li>Trigger <strong>Airspace Sector Deconfliction Algorithm</strong>.</li>
+<li>Identify all active aircraft in that sector sorted in ascending order of Priority Index ($P_i$).</li>
+<li>Issue speed reduction commands (e.g., reduce cruise from $60\text{ km/h}$ to $25\text{ km/h}$) or command holding orbits at safe altitudes for lower-priority delivery drones until $D_{\text{sector}} \le 0.80$.</li>
+<li>Clear a dedicated unobstructed <strong>Green Corridor</strong> for high-priority emergency drones.</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><strong>Outputs:</strong> MAVLink <code>SPEED_OVERRIDE</code> and <code>WAYPOINT_HOLD</code> packets broadcast to drones; warning push notifications sent to operators.</li>
+</ul>
+<h4><strong>FR-04: Automated Airway Billing &amp; Vertiport Service Settlement</strong></h4>
+<ul>
+<li><strong>Description:</strong> The system shall compute flight fees upon mission completion based on distance flown, airspace sector transit, and vertiport occupancy duration.</li>
+<li><strong>Inputs:</strong> Flight trajectory log ($\text{km}$), Vertiport charging/turnaround time ($\text{minutes}$), Operator category.</li>
+<li><strong>Processing:</strong> Total Fee = $(\text{Distance} \times \text{Airway Tariff}) + (t_{\text{vertiport}} \times \text{Pad Fee}) + \text{Peak Surcharge}$.</li>
+<li><strong>Outputs:</strong> Digital Itemized Receipt sent to operator account, automated debit via linked campus/enterprise wallet.</li>
+</ul>
+<h4><strong>FR-05: Real-Time 3D Air Traffic Telemetry &amp; SCADA Radar Dashboard</strong></h4>
+<ul>
+<li><strong>Description:</strong> The web portal shall render live 3D airspace views, collision risk heatmaps, vertiport availability, and weather radar feeds for campus air traffic controllers.</li>
+<li><strong>Inputs:</strong> Live telemetry from 50 drones, 50 vertiports, and ground weather stations.</li>
+<li><strong>Outputs:</strong> Interactive 3D Cesium/WebGL map, audible audio-visual collision alerts, and downloadable compliance flight logs.</li>
+</ul>
+<h4><strong>FR-06: Emergency Airspace Grounding &amp; Return-to-Home (RTH) Override</strong></h4>
+<ul>
+<li><strong>Description:</strong> In the event of severe weather or security intrusion, the system shall provide automated single-click emergency Return-to-Home (RTH) or land-immediately commands executed within $&lt; 1.5\text{ seconds}$.</li>
+</ul>
+<hr />
+<h3>1.4 Non-Functional Requirements (NFRs) with Exact Metrics</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">ID</th>
+<th style="text-align:left">Quality Attribute</th>
+<th style="text-align:left">Requirement Description</th>
+<th style="text-align:left">Exact Measurable Metric</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>NFR-01</strong></td>
+<td style="text-align:left"><strong>Availability &amp; Reliability</strong></td>
+<td style="text-align:left">The airspace management and emergency corridor routing engine must remain continuously operational with dual-zone hot failover.</td>
+<td style="text-align:left"><strong>$\ge 99.99\%$ uptime</strong> (Maximum unplanned downtime $\le 4.38\text{ minutes/month}$).</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>NFR-02</strong></td>
+<td style="text-align:left"><strong>Performance &amp; Latency</strong></td>
+<td style="text-align:left">Airspace sector density calculations and collision-avoidance speed throttling must execute near real-time.</td>
+<td style="text-align:left"><strong>Latency $\le 100\text{ ms}$</strong> from density threshold breach to command dispatch; <strong>p99 API latency $\le 80\text{ ms}$</strong>.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>NFR-03</strong></td>
+<td style="text-align:left"><strong>Security &amp; Integrity</strong></td>
+<td style="text-align:left">Flight control packets and billing data must be cryptographically protected against spoofing and GPS replay attacks.</td>
+<td style="text-align:left"><strong>TLS 1.3</strong> transport encryption; <strong>AES-256-GCM</strong> at rest; <strong>ECDSA digital signatures</strong> on Remote ID broadcasts.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>NFR-04</strong></td>
+<td style="text-align:left"><strong>Scalability &amp; Throughput</strong></td>
+<td style="text-align:left">The telemetry ingestion message bus must handle high-frequency sensor streams without packet loss.</td>
+<td style="text-align:left"><strong>$\ge 15,000\text{ telemetry messages/second}$</strong> ingestion throughput; supports <strong>$500\text{ concurrent UAVs}$</strong> seamlessly.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>NFR-05</strong></td>
+<td style="text-align:left"><strong>Edge Resilience</strong></td>
+<td style="text-align:left">Vertiports must maintain local automated landing guidance and battery charging if internet connection drops.</td>
+<td style="text-align:left"><strong>$\ge 48\text{ hours}$ local transaction buffering</strong>; auto-sync within <strong>$\le 10\text{ seconds}$</strong> upon reconnect.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1>Task 2: Requirement Analysis &amp; Behavioral Modeling</h1>
+<hr />
+<h3>2.1 Scenario-Based Modeling: UML Use Case Diagram &amp; Actor Matrix</h3>
+<p>Figure 2.1 illustrates the AeroGrid UML Use Case Diagram, depicting primary and supporting actors (<code>Drone Operator</code>, <code>Air Traffic Controller (ATC)</code>, <code>Ground Radar SCADA</code>, <code>Payment Service</code>), the AeroGrid System Boundary, and relationship vectors including <code>«include»</code> and <code>«extend»</code> connections.</p>
+<div class="diagram-wrapper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 950 630" width="100%" height="100%" style="background:#ffffff; font-family:'Segoe UI', Roboto, sans-serif;">
+  <defs>
+    <linearGradient id="boundaryGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#f1f5f9"/>
+    </linearGradient>
+    <linearGradient id="ucGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#e0f2fe"/>
+    </linearGradient>
+    <linearGradient id="ucSpecialGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fffbeb"/>
+      <stop offset="100%" stop-color="#fef3c7"/>
+    </linearGradient>
+    <linearGradient id="sysGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+    <filter id="cardShadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.08"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#0284c7" />
+    </marker>
+    <marker id="dashedArrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#b45309" />
+    </marker>
+  </defs>
+
+  <!-- System Boundary Box -->
+  <rect x="220" y="25" width="510" height="580" rx="14" fill="url(#boundaryGrad)" stroke="#0284c7" stroke-width="2.5" filter="url(#cardShadow)"/>
+  <text x="475" y="55" text-anchor="middle" font-size="16" font-weight="bold" fill="#0369a1" letter-spacing="0.5">AeroGrid System Boundary</text>
+
+  <!-- UC1 -->
+  <g id="uc1" filter="url(#cardShadow)">
+    <ellipse cx="370" cy="110" rx="115" ry="24" fill="url(#ucGrad)" stroke="#38bdf8" stroke-width="1.8"/>
+    <text x="370" y="115" text-anchor="middle" font-size="12.5" font-weight="600" fill="#0f172a">Authenticate Remote ID</text>
+  </g>
+
+  <!-- UC2 -->
+  <g id="uc2" filter="url(#cardShadow)">
+    <ellipse cx="370" cy="175" rx="115" ry="24" fill="url(#ucGrad)" stroke="#38bdf8" stroke-width="1.8"/>
+    <text x="370" y="180" text-anchor="middle" font-size="12.5" font-weight="600" fill="#0f172a">Check Vertiport Availability</text>
+  </g>
+
+  <!-- UC3 -->
+  <g id="uc3" filter="url(#cardShadow)">
+    <ellipse cx="370" cy="250" rx="115" ry="26" fill="url(#ucGrad)" stroke="#0284c7" stroke-width="2.2"/>
+    <text x="370" y="255" text-anchor="middle" font-size="12.5" font-weight="700" fill="#0369a1">Reserve 3D Flight Corridor</text>
+  </g>
+
+  <!-- UC4: Included in UC3 -->
+  <g id="uc4" filter="url(#cardShadow)">
+    <ellipse cx="610" cy="250" rx="100" ry="24" fill="url(#ucGrad)" stroke="#38bdf8" stroke-width="1.8"/>
+    <text x="610" y="255" text-anchor="middle" font-size="12" font-weight="600" fill="#0f172a">Determine Priority Index</text>
+  </g>
+
+  <!-- UC5 -->
+  <g id="uc5" filter="url(#cardShadow)">
+    <ellipse cx="370" cy="330" rx="118" ry="26" fill="url(#ucGrad)" stroke="#38bdf8" stroke-width="1.8"/>
+    <text x="370" y="330" text-anchor="middle" font-size="12" font-weight="600" fill="#0f172a">Start Flight Mission &amp;</text>
+    <text x="370" y="345" text-anchor="middle" font-size="12" font-weight="600" fill="#0f172a">Stream 3D Telemetry</text>
+  </g>
+
+  <!-- UC6: Payment -->
+  <g id="uc6" filter="url(#cardShadow)">
+    <ellipse cx="610" cy="330" rx="100" ry="24" fill="url(#ucGrad)" stroke="#38bdf8" stroke-width="1.8"/>
+    <text x="610" y="335" text-anchor="middle" font-size="12" font-weight="600" fill="#0f172a">Process Payment Fee</text>
+  </g>
+
+  <!-- UC7: Monitor Airspace Density -->
+  <g id="uc7" filter="url(#cardShadow)">
+    <ellipse cx="370" cy="415" rx="115" ry="24" fill="url(#ucGrad)" stroke="#38bdf8" stroke-width="1.8"/>
+    <text x="370" y="420" text-anchor="middle" font-size="12" font-weight="600" fill="#0f172a">Monitor Sector Density</text>
+  </g>
+
+  <!-- UC8: Dynamic Throttling (Highlighted amber oval) -->
+  <g id="uc8" filter="url(#cardShadow)">
+    <ellipse cx="610" cy="415" rx="105" ry="26" fill="url(#ucSpecialGrad)" stroke="#f59e0b" stroke-width="2.2"/>
+    <text x="610" y="412" text-anchor="middle" font-size="12" font-weight="700" fill="#92400e">Dynamic Airspace</text>
+    <text x="610" y="427" text-anchor="middle" font-size="12" font-weight="700" fill="#92400e">Sector Throttling</text>
+  </g>
+
+  <!-- UC9: Live Radar View -->
+  <g id="uc9" filter="url(#cardShadow)">
+    <ellipse cx="490" cy="500" rx="110" ry="24" fill="url(#ucGrad)" stroke="#38bdf8" stroke-width="1.8"/>
+    <text x="490" y="505" text-anchor="middle" font-size="12" font-weight="600" fill="#0f172a">View 3D Radar SCADA</text>
+  </g>
+
+  <!-- UC10: Revenue Dashboard -->
+  <g id="uc10" filter="url(#cardShadow)">
+    <ellipse cx="490" cy="565" rx="110" ry="24" fill="url(#ucGrad)" stroke="#38bdf8" stroke-width="1.8"/>
+    <text x="490" y="570" text-anchor="middle" font-size="12" font-weight="600" fill="#0f172a">View Revenue &amp; Airway Dash</text>
+  </g>
+
+  <!-- ================= ACTORS ================= -->
+  <!-- 1. DRONE OPERATOR (Stick Figure on Left) -->
+  <g id="actorOperator" transform="translate(75, 175)">
+    <circle cx="40" cy="30" r="16" fill="#ffffff" stroke="#1e293b" stroke-width="2.5"/>
+    <line x1="40" y1="46" x2="40" y2="95" stroke="#1e293b" stroke-width="2.5"/>
+    <line x1="12" y1="62" x2="68" y2="62" stroke="#1e293b" stroke-width="2.5"/>
+    <line x1="40" y1="95" x2="18" y2="135" stroke="#1e293b" stroke-width="2.5"/>
+    <line x1="40" y1="95" x2="62" y2="135" stroke="#1e293b" stroke-width="2.5"/>
+    <text x="40" y="158" text-anchor="middle" font-size="13" font-weight="bold" fill="#0f172a">Drone Operator</text>
+    <text x="40" y="173" text-anchor="middle" font-size="11" fill="#64748b">(Primary Actor)</text>
+  </g>
+
+  <!-- 2. AIR TRAFFIC CONTROLLER (Stick Figure on Bottom Right) -->
+  <g id="actorATC" transform="translate(805, 415)">
+    <circle cx="40" cy="30" r="16" fill="#ffffff" stroke="#1e293b" stroke-width="2.5"/>
+    <line x1="40" y1="46" x2="40" y2="95" stroke="#1e293b" stroke-width="2.5"/>
+    <line x1="12" y1="62" x2="68" y2="62" stroke="#1e293b" stroke-width="2.5"/>
+    <line x1="40" y1="95" x2="18" y2="135" stroke="#1e293b" stroke-width="2.5"/>
+    <line x1="40" y1="95" x2="62" y2="135" stroke="#1e293b" stroke-width="2.5"/>
+    <text x="40" y="158" text-anchor="middle" font-size="13" font-weight="bold" fill="#0f172a">Campus ATC Admin</text>
+    <text x="40" y="173" text-anchor="middle" font-size="11" fill="#64748b">(Secondary Actor)</text>
+  </g>
+
+  <!-- 3. GROUND RADAR SCADA (System Box on Bottom Left) -->
+  <g id="actorRadar" transform="translate(25, 415)" filter="url(#cardShadow)">
+    <rect x="0" y="0" width="150" height="60" rx="8" fill="url(#sysGrad)"/>
+    <text x="75" y="25" text-anchor="middle" font-size="11" font-weight="600" fill="#e0f2fe">«System»</text>
+    <text x="75" y="44" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#ffffff">Ground Radar SCADA</text>
+  </g>
+
+  <!-- 4. PAYMENT GATEWAY (System Box on Top Right) -->
+  <g id="actorPayment" transform="translate(775, 175)" filter="url(#cardShadow)">
+    <rect x="0" y="0" width="145" height="60" rx="8" fill="url(#sysGrad)"/>
+    <text x="72" y="25" text-anchor="middle" font-size="11" font-weight="600" fill="#e0f2fe">«System»</text>
+    <text x="72" y="44" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#ffffff">Payment Gateway</text>
+  </g>
+
+  <!-- Associations -->
+  <line x1="145" y1="235" x2="255" y2="110" stroke="#475569" stroke-width="1.6"/>
+  <line x1="145" y1="235" x2="255" y2="175" stroke="#475569" stroke-width="1.6"/>
+  <line x1="145" y1="235" x2="255" y2="250" stroke="#475569" stroke-width="1.8"/>
+  <line x1="145" y1="235" x2="255" y2="330" stroke="#475569" stroke-width="1.6"/>
+
+  <line x1="175" y1="445" x2="255" y2="415" stroke="#475569" stroke-width="1.6"/>
+
+  <!-- UC3 to UC4 (<<include>>) -->
+  <path d="M 485 250 L 505 250" stroke="#0284c7" stroke-width="1.6" stroke-dasharray="5,3" marker-end="url(#arrow)"/>
+  <text x="495" y="240" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#0369a1">«include»</text>
+
+  <!-- UC5 to UC6 (<<include>>) -->
+  <path d="M 488 330 L 505 330" stroke="#0284c7" stroke-width="1.6" stroke-dasharray="5,3" marker-end="url(#arrow)"/>
+  <text x="495" y="320" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#0369a1">«include»</text>
+
+  <line x1="710" y1="330" x2="775" y2="215" stroke="#475569" stroke-width="1.6"/>
+
+  <!-- UC7 to UC8 (<<extend>>) -->
+  <path d="M 485 415 L 500 415" stroke="#b45309" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#dashedArrow)"/>
+  <text x="495" y="403" text-anchor="middle" font-size="10" font-weight="bold" fill="#b45309">«extend»</text>
+  <text x="495" y="431" text-anchor="middle" font-size="9" font-weight="bold" fill="#b45309">[Density &gt; 85%]</text>
+
+  <!-- ATC Links -->
+  <line x1="810" y1="465" x2="715" y2="425" stroke="#475569" stroke-width="1.5"/>
+  <line x1="810" y1="465" x2="600" y2="500" stroke="#475569" stroke-width="1.6"/>
+  <line x1="810" y1="465" x2="600" y2="565" stroke="#475569" stroke-width="1.6"/>
+</svg></div>
+<hr />
+<h3>2.2 Formal Use Case Specification: Core Scenario (UC-05 Dynamic Airspace Throttling)</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Use Case Element</th>
+<th style="text-align:left">Specification</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Use Case ID &amp; Title</strong></td>
+<td style="text-align:left"><strong>UC-05: Dynamic Airspace Sector Throttling</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Primary Actor</strong></td>
+<td style="text-align:left">Autonomous Airspace Controller Engine / Ground Radar SCADA Stream</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Secondary Actor</strong></td>
+<td style="text-align:left">Drone Operator (Notification Recipient)</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Trigger</strong></td>
+<td style="text-align:left">Airspace Sector traffic density exceeds <strong>$85\%$ of safe capacity ceiling</strong>.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Pre-Conditions</strong></td>
+<td style="text-align:left">1. AeroGrid Airspace Management Service is running with live MQTT telemetry feeds.<br>2. Multiple autonomous drones are airborne within the sector.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Main Success Flow</strong></td>
+<td style="text-align:left">1. Ground Radar / Telemetry Broker reports sector density $&gt; 85\%$.<br>2. AeroGrid Airspace Engine intercepts event via Kafka topic within $15\text{ ms}$.<br>3. System retrieves all active flights in sector and computes dynamic Priority Index ($P_i$).<br>4. System sorts aircraft in ascending order of priority ($P_i$).<br>5. System generates speed-reduction and waypoint holding instructions targeting lowest-priority delivery drones.<br>6. Onboard autopilots step down cruise speed (e.g., $60\text{ km/h} \to 25\text{ km/h}$) or enter designated holding patterns.<br>7. System clears an unobstructed <strong>Green Corridor</strong> for emergency medical transport.<br>8. Telemetry confirms sector density safely normalizes below $80\%$.<br>9. Push notifications dispatched to commercial operators explaining traffic deconfliction.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Alternative Flows</strong></td>
+<td style="text-align:left"><strong>4a. All Flights are Emergency Medical:</strong> System cannot throttle; immediately reroutes incoming flights to secondary alternate flight levels and alerts ATC.<br><strong>6a. UAV Fails to Acknowledge Command:</strong> System commands surrounding aircraft to broaden collision-avoidance geofence bubbles ($+50\text{ meters}$).</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Post-Conditions</strong></td>
+<td style="text-align:left">Sector collision risk mitigated; Green Corridor verified open; all telemetry logged.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>2.3 Flow &amp; Behavioral Modeling: Activity Diagram</h3>
+<p>The activity diagram below illustrates the operational lifecycle from mission booking to landing, explicitly highlighting role authorization and the <strong>85% airspace overload decision logic</strong>.</p>
+<div class="diagram-wrapper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 950 820" width="100%" height="100%" style="background:#ffffff; font-family:'Segoe UI', Roboto, sans-serif;">
+  <defs>
+    <linearGradient id="actBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#e0f2fe"/>
+    </linearGradient>
+    <linearGradient id="actAmber" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fffbeb"/>
+      <stop offset="100%" stop-color="#fef3c7"/>
+    </linearGradient>
+    <linearGradient id="actGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f0fdf4"/>
+      <stop offset="100%" stop-color="#dcfce7"/>
+    </linearGradient>
+    <linearGradient id="actRed" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fff1f2"/>
+      <stop offset="100%" stop-color="#ffe4e6"/>
+    </linearGradient>
+    <filter id="actShadow" x="-4%" y="-4%" width="108%" height="108%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.08"/>
+    </filter>
+    <marker id="actArrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#0284c7" />
+    </marker>
+  </defs>
+
+  <!-- Start Node -->
+  <circle cx="475" cy="30" r="14" fill="#0f172a" stroke="#38bdf8" stroke-width="3"/>
+  <text x="475" y="60" text-anchor="middle" font-size="11" font-weight="bold" fill="#0f172a">Mission Dispatch</text>
+
+  <!-- Step 1: Pre-Flight -->
+  <line x1="475" y1="44" x2="475" y2="75" stroke="#0284c7" stroke-width="2" marker-end="url(#actArrow)"/>
+  <g transform="translate(325, 75)" filter="url(#actShadow)">
+    <rect width="300" height="42" rx="8" fill="url(#actBlue)" stroke="#38bdf8" stroke-width="1.6"/>
+    <text x="150" y="26" text-anchor="middle" font-size="12" font-weight="600" fill="#0f172a">Remote ID &amp; Battery Pre-Flight Handshake</text>
+  </g>
+
+  <!-- Decision 1: Auth Check -->
+  <line x1="475" y1="117" x2="475" y2="145" stroke="#0284c7" stroke-width="2" marker-end="url(#actArrow)"/>
+  <g transform="translate(475, 175)">
+    <polygon points="0,-25 75,0 0,25 -75,0" fill="url(#actAmber)" stroke="#f59e0b" stroke-width="2"/>
+    <text x="0" y="4" text-anchor="middle" font-size="11" font-weight="bold" fill="#78350f">Auth Valid?</text>
+  </g>
+
+  <!-- Branch: Auth Failed -->
+  <line x1="550" y1="175" x2="680" y2="175" stroke="#e11d48" stroke-width="1.8" marker-end="url(#actArrow)"/>
+  <text x="600" y="165" text-anchor="middle" font-size="10" font-weight="bold" fill="#e11d48">[No: Reject]</text>
+  <g transform="translate(680, 155)" filter="url(#actShadow)">
+    <rect width="180" height="40" rx="8" fill="url(#actRed)" stroke="#f43f5e" stroke-width="1.5"/>
+    <text x="90" y="25" text-anchor="middle" font-size="11" font-weight="600" fill="#9f1239">Abort &amp; Log Diagnostic</text>
+  </g>
+
+  <!-- Branch: Auth Success -->
+  <line x1="475" y1="200" x2="475" y2="230" stroke="#0284c7" stroke-width="2" marker-end="url(#actArrow)"/>
+  <text x="495" y="218" font-size="10" font-weight="bold" fill="#16a34a">[Yes: Valid]</text>
+  <g transform="translate(325, 230)" filter="url(#actShadow)">
+    <rect width="300" height="42" rx="8" fill="url(#actBlue)" stroke="#38bdf8" stroke-width="1.6"/>
+    <text x="150" y="26" text-anchor="middle" font-size="12" font-weight="600" fill="#0f172a">Compute Priority Index (Mission Role + SoC + W)</text>
+  </g>
+
+  <!-- Step 3: Takeoff -->
+  <line x1="475" y1="272" x2="475" y2="300" stroke="#0284c7" stroke-width="2" marker-end="url(#actArrow)"/>
+  <g transform="translate(325, 300)" filter="url(#actShadow)">
+    <rect width="300" height="42" rx="8" fill="url(#actBlue)" stroke="#38bdf8" stroke-width="1.6"/>
+    <text x="150" y="26" text-anchor="middle" font-size="12" font-weight="600" fill="#0f172a">Disengage Vertiport Clamps &amp; Climb to Altitude</text>
+  </g>
+
+  <!-- Decision 2: 85% Density Check -->
+  <line x1="475" y1="342" x2="475" y2="370" stroke="#0284c7" stroke-width="2" marker-end="url(#actArrow)"/>
+  <g transform="translate(475, 405)">
+    <polygon points="0,-30 110,0 0,30 -110,0" fill="url(#actAmber)" stroke="#f59e0b" stroke-width="2"/>
+    <text x="0" y="-3" text-anchor="middle" font-size="11" font-weight="bold" fill="#78350f">Airspace Sector</text>
+    <text x="0" y="12" text-anchor="middle" font-size="11" font-weight="bold" fill="#78350f">Density &gt; 85%?</text>
+  </g>
+
+  <!-- Branch: Overload Yes -->
+  <path d="M 365 405 L 210 405 L 210 455" stroke="#f59e0b" stroke-width="1.8" marker-end="url(#actArrow)"/>
+  <text x="270" y="395" text-anchor="middle" font-size="10" font-weight="bold" fill="#b45309">[Yes: Density &gt; 85%]</text>
+  <g transform="translate(90, 455)" filter="url(#actShadow)">
+    <rect width="240" height="50" rx="8" fill="url(#actAmber)" stroke="#f59e0b" stroke-width="1.8"/>
+    <text x="120" y="22" text-anchor="middle" font-size="11" font-weight="bold" fill="#78350f">⚡ Dynamic Sector Throttling</text>
+    <text x="120" y="38" text-anchor="middle" font-size="10" fill="#92400e">Low-Priority: Speed 25km/h / Hold</text>
+  </g>
+
+  <!-- Branch: Overload No (Normal) -->
+  <path d="M 585 405 L 740 405 L 740 455" stroke="#16a34a" stroke-width="1.8" marker-end="url(#actArrow)"/>
+  <text x="680" y="395" text-anchor="middle" font-size="10" font-weight="bold" fill="#16a34a">[No: Normal Density]</text>
+  <g transform="translate(620, 455)" filter="url(#actShadow)">
+    <rect width="240" height="50" rx="8" fill="url(#actGreen)" stroke="#16a34a" stroke-width="1.8"/>
+    <text x="120" y="22" text-anchor="middle" font-size="11" font-weight="bold" fill="#14532d">🟢 Standard Green Corridor</text>
+    <text x="120" y="38" text-anchor="middle" font-size="10" fill="#166534">Optimal Cruise Speed (60-70 km/h)</text>
+  </g>
+
+  <!-- Merge into Flight Loop -->
+  <path d="M 210 505 L 210 540 L 475 540" stroke="#0284c7" stroke-width="1.8"/>
+  <path d="M 740 505 L 740 540 L 475 540" stroke="#0284c7" stroke-width="1.8" marker-end="url(#actArrow)"/>
+
+  <!-- Step: In-Flight Telemetry Streaming -->
+  <g transform="translate(325, 555)" filter="url(#actShadow)">
+    <rect width="300" height="42" rx="8" fill="url(#actBlue)" stroke="#38bdf8" stroke-width="1.6"/>
+    <text x="150" y="26" text-anchor="middle" font-size="12" font-weight="600" fill="#0f172a">Continuous Flight: Stream GPS, Altitude, Speed &amp; SoC</text>
+  </g>
+
+  <!-- Step: Land & Settle -->
+  <line x1="475" y1="597" x2="475" y2="625" stroke="#0284c7" stroke-width="2" marker-end="url(#actArrow)"/>
+  <g transform="translate(325, 625)" filter="url(#actShadow)">
+    <rect width="300" height="42" rx="8" fill="url(#actBlue)" stroke="#38bdf8" stroke-width="1.6"/>
+    <text x="150" y="26" text-anchor="middle" font-size="12" font-weight="600" fill="#0f172a">Precision Autonomous Landing on Destination Pad</text>
+  </g>
+
+  <!-- Step: Billing -->
+  <line x1="475" y1="667" x2="475" y2="695" stroke="#0284c7" stroke-width="2" marker-end="url(#actArrow)"/>
+  <g transform="translate(325, 695)" filter="url(#actShadow)">
+    <rect width="300" height="42" rx="8" fill="url(#actGreen)" stroke="#16a34a" stroke-width="1.6"/>
+    <text x="150" y="26" text-anchor="middle" font-size="12" font-weight="bold" fill="#14532d">💳 Automated Tariff Settlement &amp; Invoice</text>
+  </g>
+
+  <!-- End Node -->
+  <line x1="475" y1="737" x2="475" y2="765" stroke="#0284c7" stroke-width="2" marker-end="url(#actArrow)"/>
+  <circle cx="475" cy="780" r="14" fill="#ffffff" stroke="#0f172a" stroke-width="2.5"/>
+  <circle cx="475" cy="780" r="8" fill="#0f172a"/>
+  <text x="475" y="810" text-anchor="middle" font-size="11" font-weight="bold" fill="#0f172a">Mission Concluded</text>
+</svg></div>
+<hr />
+<h1>Task 3: Architectural Design (4+1 View Model)</h1>
+<hr />
+<h3>3.1 Logical View: Comprehensive Domain Class Diagram</h3>
+<p>The Logical View represents the static object-oriented domain structure of AeroGrid, capturing entity attributes, visibility (<code>+</code> public, <code>-</code> private), methods, and UML relationship semantics (Generalization, Composition, Aggregation, Association).</p>
+<div class="diagram-wrapper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 950 680" width="100%" height="100%" style="background:#ffffff; font-family:'Segoe UI', Roboto, sans-serif;">
+  <defs>
+    <linearGradient id="clsHeadGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+    <filter id="clsShadow" x="-3%" y="-3%" width="106%" height="106%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.08"/>
+    </filter>
+  </defs>
+
+  <!-- Class 1: User -->
+  <g transform="translate(30, 20)" filter="url(#clsShadow)">
+    <rect width="240" height="135" rx="6" fill="#ffffff" stroke="#0284c7" stroke-width="1.6"/>
+    <path d="M 0 6 Q 0 0 6 0 L 234 0 Q 240 0 240 6 L 240 28 L 0 28 Z" fill="url(#clsHeadGrad)"/>
+    <text x="120" y="19" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#ffffff">User (Abstract)</text>
+    <!-- Attributes -->
+    <text x="10" y="44" font-size="10.5" fill="#1e293b">- String userId</text>
+    <text x="10" y="60" font-size="10.5" fill="#1e293b">- String fullName</text>
+    <text x="10" y="76" font-size="10.5" fill="#1e293b">- String emailAddress</text>
+    <line x1="0" y1="84" x2="240" y2="84" stroke="#e2e8f0" stroke-width="1"/>
+    <!-- Methods -->
+    <text x="10" y="100" font-size="10.5" fill="#0369a1">+ authenticate() bool</text>
+    <text x="10" y="116" font-size="10.5" fill="#0369a1">+ updateProfile() void</text>
+  </g>
+
+  <!-- Class 2: DroneOperator -->
+  <g transform="translate(30, 200)" filter="url(#clsShadow)">
+    <rect width="240" height="150" rx="6" fill="#ffffff" stroke="#0284c7" stroke-width="1.6"/>
+    <path d="M 0 6 Q 0 0 6 0 L 234 0 Q 240 0 240 6 L 240 28 L 0 28 Z" fill="url(#clsHeadGrad)"/>
+    <text x="120" y="19" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#ffffff">DroneOperator</text>
+    <!-- Attributes -->
+    <text x="10" y="44" font-size="10.5" fill="#1e293b">- String pilotLicenseNo</text>
+    <text x="10" y="60" font-size="10.5" fill="#1e293b">- String orgCategory</text>
+    <text x="10" y="76" font-size="10.5" fill="#1e293b">- float accountBalance</text>
+    <line x1="0" y1="84" x2="240" y2="84" stroke="#e2e8f0" stroke-width="1"/>
+    <!-- Methods -->
+    <text x="10" y="100" font-size="10.5" fill="#0369a1">+ bookCorridor() Reservation</text>
+    <text x="10" y="116" font-size="10.5" fill="#0369a1">+ launchMission() bool</text>
+    <text x="10" y="132" font-size="10.5" fill="#0369a1">+ triggerRTH() void</text>
+  </g>
+
+  <!-- Class 3: UAVDrone -->
+  <g transform="translate(350, 20)" filter="url(#clsShadow)">
+    <rect width="250" height="165" rx="6" fill="#ffffff" stroke="#0284c7" stroke-width="1.6"/>
+    <path d="M 0 6 Q 0 0 6 0 L 244 0 Q 250 0 250 6 L 250 28 L 0 28 Z" fill="url(#clsHeadGrad)"/>
+    <text x="125" y="19" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#ffffff">UAVDrone</text>
+    <text x="10" y="44" font-size="10.5" fill="#1e293b">- String uavRegId</text>
+    <text x="10" y="60" font-size="10.5" fill="#1e293b">- String remoteIdToken</text>
+    <text x="10" y="76" font-size="10.5" fill="#1e293b">- float currentSoC</text>
+    <text x="10" y="92" font-size="10.5" fill="#1e293b">- float maxPayloadKg</text>
+    <line x1="0" y1="100" x2="250" y2="100" stroke="#e2e8f0" stroke-width="1"/>
+    <text x="10" y="116" font-size="10.5" fill="#0369a1">+ streamTelemetry() Packet</text>
+    <text x="10" y="132" font-size="10.5" fill="#0369a1">+ applySpeedOverride() void</text>
+    <text x="10" y="148" font-size="10.5" fill="#0369a1">+ getPriorityRating() float</text>
+  </g>
+
+  <!-- Class 4: FlightMission -->
+  <g transform="translate(350, 230)" filter="url(#clsShadow)">
+    <rect width="250" height="175" rx="6" fill="#ffffff" stroke="#0284c7" stroke-width="1.6"/>
+    <path d="M 0 6 Q 0 0 6 0 L 244 0 Q 250 0 250 6 L 250 28 L 0 28 Z" fill="url(#clsHeadGrad)"/>
+    <text x="125" y="19" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#ffffff">FlightMission</text>
+    <text x="10" y="44" font-size="10.5" fill="#1e293b">- String missionId</text>
+    <text x="10" y="60" font-size="10.5" fill="#1e293b">- DateTime departureTime</text>
+    <text x="10" y="76" font-size="10.5" fill="#1e293b">- float initialSoC</text>
+    <text x="10" y="92" font-size="10.5" fill="#1e293b">- float totalDistanceKm</text>
+    <text x="10" y="108" font-size="10.5" fill="#1e293b">- String status</text>
+    <line x1="0" y1="116" x2="250" y2="116" stroke="#e2e8f0" stroke-width="1"/>
+    <text x="10" y="132" font-size="10.5" fill="#0369a1">+ startMission() void</text>
+    <text x="10" y="148" font-size="10.5" fill="#0369a1">+ completeMission() void</text>
+    <text x="10" y="164" font-size="10.5" fill="#0369a1">+ computeDistance() float</text>
+  </g>
+
+  <!-- Class 5: VertiportHub & LandingPad -->
+  <g transform="translate(680, 20)" filter="url(#clsShadow)">
+    <rect width="240" height="150" rx="6" fill="#ffffff" stroke="#0284c7" stroke-width="1.6"/>
+    <path d="M 0 6 Q 0 0 6 0 L 234 0 Q 240 0 240 6 L 240 28 L 0 28 Z" fill="url(#clsHeadGrad)"/>
+    <text x="120" y="19" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#ffffff">VertiportHub</text>
+    <text x="10" y="44" font-size="10.5" fill="#1e293b">- String hubId</text>
+    <text x="10" y="60" font-size="10.5" fill="#1e293b">- String campusZone</text>
+    <text x="10" y="76" font-size="10.5" fill="#1e293b">- int totalPads</text>
+    <line x1="0" y1="84" x2="240" y2="84" stroke="#e2e8f0" stroke-width="1"/>
+    <text x="10" y="100" font-size="10.5" fill="#0369a1">+ checkPadAvail() bool</text>
+    <text x="10" y="116" font-size="10.5" fill="#0369a1">+ lockVertiport() void</text>
+  </g>
+
+  <!-- Class 6: AirspaceSectorController -->
+  <g transform="translate(680, 230)" filter="url(#clsShadow)">
+    <rect width="240" height="160" rx="6" fill="#ffffff" stroke="#f59e0b" stroke-width="2"/>
+    <path d="M 0 6 Q 0 0 6 0 L 234 0 Q 240 0 240 6 L 240 28 L 0 28 Z" fill="#d97706"/>
+    <text x="120" y="19" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#ffffff">AirspaceController</text>
+    <text x="10" y="44" font-size="10.5" fill="#1e293b">- String sectorId</text>
+    <text x="10" y="60" font-size="10.5" fill="#1e293b">- float maxDensityCap</text>
+    <text x="10" y="76" font-size="10.5" fill="#1e293b">- float activeCount</text>
+    <line x1="0" y1="84" x2="240" y2="84" stroke="#e2e8f0" stroke-width="1"/>
+    <text x="10" y="100" font-size="10.5" fill="#92400e">+ pollRadarSCADA() Data</text>
+    <text x="10" y="116" font-size="10.5" fill="#92400e">+ evalCollisionRisk() bool</text>
+    <text x="10" y="132" font-size="10.5" fill="#92400e">+ throttleSector() void</text>
+  </g>
+
+  <!-- Class 7: BillingTransaction -->
+  <g transform="translate(350, 460)" filter="url(#clsShadow)">
+    <rect width="250" height="150" rx="6" fill="#ffffff" stroke="#16a34a" stroke-width="1.6"/>
+    <path d="M 0 6 Q 0 0 6 0 L 244 0 Q 250 0 250 6 L 250 28 L 0 28 Z" fill="#15803d"/>
+    <text x="125" y="19" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#ffffff">BillingTransaction</text>
+    <text x="10" y="44" font-size="10.5" fill="#1e293b">- String txnId</text>
+    <text x="10" y="60" font-size="10.5" fill="#1e293b">- float totalFee</text>
+    <text x="10" y="76" font-size="10.5" fill="#1e293b">- String paymentStatus</text>
+    <line x1="0" y1="84" x2="250" y2="84" stroke="#e2e8f0" stroke-width="1"/>
+    <text x="10" y="100" font-size="10.5" fill="#14532d">+ processSettlement() bool</text>
+    <text x="10" y="116" font-size="10.5" fill="#14532d">+ generateReceipt() Receipt</text>
+  </g>
+
+  <!-- Inheritance: DroneOperator -> User -->
+  <line x1="150" y1="200" x2="150" y2="155" stroke="#0284c7" stroke-width="1.8"/>
+  <polygon points="150,155 144,167 156,167" fill="#ffffff" stroke="#0284c7" stroke-width="1.8"/>
+
+  <!-- Association: DroneOperator -> FlightMission -->
+  <line x1="270" y1="280" x2="350" y2="280" stroke="#475569" stroke-width="1.6"/>
+  <text x="280" y="272" font-size="10" fill="#475569">1</text>
+  <text x="335" y="272" font-size="10" fill="#475569">0..*</text>
+
+  <!-- Association: FlightMission -> UAVDrone -->
+  <line x1="475" y1="230" x2="475" y2="185" stroke="#475569" stroke-width="1.6"/>
+  <text x="480" y="222" font-size="10" fill="#475569">1</text>
+  <text x="480" y="198" font-size="10" fill="#475569">1</text>
+
+  <!-- Association: FlightMission -> BillingTransaction -->
+  <line x1="475" y1="405" x2="475" y2="460" stroke="#475569" stroke-width="1.6"/>
+  <text x="480" y="420" font-size="10" fill="#475569">1</text>
+  <text x="480" y="450" font-size="10" fill="#475569">1</text>
+
+  <!-- Dependency: AirspaceController -> FlightMission -->
+  <line x1="680" y1="310" x2="600" y2="310" stroke="#d97706" stroke-width="1.6" stroke-dasharray="5,3"/>
+  <text x="635" y="302" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#d97706">Regulates</text>
+</svg></div>
+<hr />
+<h3>3.2 Implementation &amp; Development View: Event-Driven Microservices Architecture</h3>
+<p>To satisfy the demanding requirement of processing high-frequency 3D flight telemetry while executing sub-second airspace deconfliction, AeroGrid adopts an <strong>Event-Driven Microservices Architecture</strong> centered on an <strong>Apache Kafka Distributed Event Backbone</strong>.</p>
+<div class="diagram-wrapper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 950 780" width="100%" height="100%" style="background:#ffffff; font-family:'Segoe UI', Roboto, sans-serif;">
+  <defs>
+    <linearGradient id="tierGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#f1f5f9"/>
+    </linearGradient>
+    <linearGradient id="blueCard" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#e0f2fe"/>
+    </linearGradient>
+    <linearGradient id="amberCard" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#fef3c7"/>
+    </linearGradient>
+    <linearGradient id="greenCard" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#dcfce7"/>
+    </linearGradient>
+    <linearGradient id="purpleCard" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f3e8ff"/>
+    </linearGradient>
+    <filter id="tierShadow" x="-2%" y="-2%" width="104%" height="104%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.06"/>
+    </filter>
+    <filter id="elemShadow" x="-4%" y="-4%" width="108%" height="108%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.1"/>
+    </filter>
+    <marker id="mArrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#0284c7" />
+    </marker>
+    <marker id="mArrowAmber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#d97706" />
+    </marker>
+    <marker id="mArrowPurple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#9333ea" />
+    </marker>
+  </defs>
+
+  <!-- ================= TIER 1: CLIENT & EDGE LAYER ================= -->
+  <g transform="translate(30, 20)" filter="url(#tierShadow)">
+    <rect width="890" height="110" rx="10" fill="url(#tierGrad)" stroke="#38bdf8" stroke-width="1.8"/>
+    <text x="20" y="24" font-size="13" font-weight="bold" fill="#0369a1">1. Edge, Mobile &amp; Sensor Layer</text>
+
+    <!-- Edge Item 1 -->
+    <g transform="translate(30, 38)" filter="url(#elemShadow)">
+      <rect width="185" height="56" rx="6" fill="url(#blueCard)" stroke="#38bdf8" stroke-width="1.4"/>
+      <text x="92" y="24" text-anchor="middle" font-size="12" font-weight="bold" fill="#0f172a">📱 Operator Client App</text>
+      <text x="92" y="42" text-anchor="middle" font-size="10.5" fill="#475569">Flutter (iOS / Android)</text>
+    </g>
+
+    <!-- Edge Item 2 -->
+    <g transform="translate(245, 38)" filter="url(#elemShadow)">
+      <rect width="185" height="56" rx="6" fill="url(#blueCard)" stroke="#38bdf8" stroke-width="1.4"/>
+      <text x="92" y="24" text-anchor="middle" font-size="12" font-weight="bold" fill="#0f172a">💻 ATC Radar Dashboard</text>
+      <text x="92" y="42" text-anchor="middle" font-size="10.5" fill="#475569">React 18 / 3D WebGL</text>
+    </g>
+
+    <!-- Edge Item 3 -->
+    <g transform="translate(460, 38)" filter="url(#elemShadow)">
+      <rect width="185" height="56" rx="6" fill="url(#amberCard)" stroke="#f59e0b" stroke-width="1.4"/>
+      <text x="92" y="24" text-anchor="middle" font-size="12" font-weight="bold" fill="#78350f">🛸 50 Autonomous UAVs</text>
+      <text x="92" y="42" text-anchor="middle" font-size="10.5" fill="#b45309">MAVLink / 4G Telemetry</text>
+    </g>
+
+    <!-- Edge Item 4 -->
+    <g transform="translate(675, 38)" filter="url(#elemShadow)">
+      <rect width="185" height="56" rx="6" fill="url(#amberCard)" stroke="#f59e0b" stroke-width="1.4"/>
+      <text x="92" y="24" text-anchor="middle" font-size="12" font-weight="bold" fill="#78350f">🛬 50 Vertiport Pads</text>
+      <text x="92" y="42" text-anchor="middle" font-size="10.5" fill="#b45309">Pad Controllers / Modbus</text>
+    </g>
+  </g>
+
+  <!-- Downward Arrows from Tier 1 to Tier 2 -->
+  <path d="M 152 130 L 152 165" stroke="#0284c7" stroke-width="1.8" marker-end="url(#mArrow)"/>
+  <path d="M 367 130 L 367 165" stroke="#0284c7" stroke-width="1.8" marker-end="url(#mArrow)"/>
+  <path d="M 582 130 L 582 165" stroke="#d97706" stroke-width="1.8" marker-end="url(#mArrowAmber)"/>
+  <path d="M 797 130 L 797 165" stroke="#d97706" stroke-width="1.8" marker-end="url(#mArrowAmber)"/>
+
+  <!-- ================= TIER 2: INGRESS API & MQTT GATEWAY ================= -->
+  <g transform="translate(30, 170)" filter="url(#tierShadow)">
+    <rect width="890" height="95" rx="10" fill="url(#tierGrad)" stroke="#0284c7" stroke-width="1.8"/>
+    <text x="20" y="24" font-size="13" font-weight="bold" fill="#0369a1">2. API Gateway &amp; Ingestion Layer</text>
+
+    <!-- Kong API Gateway -->
+    <g transform="translate(60, 36)" filter="url(#elemShadow)">
+      <rect width="360" height="48" rx="6" fill="url(#blueCard)" stroke="#0284c7" stroke-width="1.6"/>
+      <text x="180" y="22" text-anchor="middle" font-size="12" font-weight="bold" fill="#0369a1">🛡️ Kong Enterprise API Gateway</text>
+      <text x="180" y="38" text-anchor="middle" font-size="10" fill="#475569">Reverse Proxy • Rate Limiting • OAuth 2.0 / JWT Auth</text>
+    </g>
+
+    <!-- EMQX MQTT Broker -->
+    <g transform="translate(470, 36)" filter="url(#elemShadow)">
+      <rect width="360" height="48" rx="6" fill="url(#amberCard)" stroke="#f59e0b" stroke-width="1.6"/>
+      <text x="180" y="22" text-anchor="middle" font-size="12" font-weight="bold" fill="#92400e">⚡ EMQX Distributed MQTT Gateway</text>
+      <text x="180" y="38" text-anchor="middle" font-size="10" fill="#b45309">High-Throughput Sensor Ingestion (&gt;15k msgs/sec)</text>
+    </g>
+  </g>
+
+  <!-- Downward Arrows from Tier 2 to Tier 3 -->
+  <path d="M 240 265 L 240 300" stroke="#0284c7" stroke-width="1.8" marker-end="url(#mArrow)"/>
+  <path d="M 650 265 L 650 300" stroke="#d97706" stroke-width="1.8" marker-end="url(#mArrowAmber)"/>
+
+  <!-- ================= TIER 3: DISTRIBUTED EVENT BACKBONE (KAFKA) ================= -->
+  <g transform="translate(30, 305)" filter="url(#tierShadow)">
+    <rect width="890" height="95" rx="10" fill="url(#tierGrad)" stroke="#9333ea" stroke-width="1.8"/>
+    <text x="20" y="24" font-size="13" font-weight="bold" fill="#6b21a8">3. Distributed Event Backbone (Apache Kafka Cluster)</text>
+
+    <!-- Topic 1 -->
+    <g transform="translate(25, 36)" filter="url(#elemShadow)">
+      <rect width="195" height="46" rx="6" fill="url(#purpleCard)" stroke="#c084fc" stroke-width="1.4"/>
+      <text x="97" y="20" text-anchor="middle" font-size="11" font-weight="bold" fill="#581c87">Topic: telemetry.drone.3d</text>
+      <text x="97" y="36" text-anchor="middle" font-size="9.5" fill="#6b21a8">2 Hz Telemetry Streams</text>
+    </g>
+
+    <!-- Topic 2 -->
+    <g transform="translate(240, 36)" filter="url(#elemShadow)">
+      <rect width="195" height="46" rx="6" fill="url(#purpleCard)" stroke="#c084fc" stroke-width="1.4"/>
+      <text x="97" y="20" text-anchor="middle" font-size="11" font-weight="bold" fill="#581c87">Topic: airspace.density</text>
+      <text x="97" y="36" text-anchor="middle" font-size="9.5" fill="#6b21a8">Sector Overload Feeds</text>
+    </g>
+
+    <!-- Topic 3 -->
+    <g transform="translate(455, 36)" filter="url(#elemShadow)">
+      <rect width="195" height="46" rx="6" fill="url(#purpleCard)" stroke="#c084fc" stroke-width="1.4"/>
+      <text x="97" y="20" text-anchor="middle" font-size="11" font-weight="bold" fill="#581c87">Topic: commands.override</text>
+      <text x="97" y="36" text-anchor="middle" font-size="9.5" fill="#6b21a8">Stepped Speed Throttling</text>
+    </g>
+
+    <!-- Topic 4 -->
+    <g transform="translate(670, 36)" filter="url(#elemShadow)">
+      <rect width="195" height="46" rx="6" fill="url(#purpleCard)" stroke="#c084fc" stroke-width="1.4"/>
+      <text x="97" y="20" text-anchor="middle" font-size="11" font-weight="bold" fill="#581c87">Topic: flight.billing</text>
+      <text x="97" y="36" text-anchor="middle" font-size="9.5" fill="#6b21a8">Completed Mission Invoices</text>
+    </g>
+  </g>
+
+  <!-- Downward Arrows from Kafka to Microservices Tier -->
+  <path d="M 122 400 L 122 435" stroke="#9333ea" stroke-width="1.8" marker-end="url(#mArrowPurple)"/>
+  <path d="M 337 400 L 337 435" stroke="#9333ea" stroke-width="1.8" marker-end="url(#mArrowPurple)"/>
+  <path d="M 552 400 L 552 435" stroke="#9333ea" stroke-width="1.8" marker-end="url(#mArrowPurple)"/>
+  <path d="M 767 400 L 767 435" stroke="#9333ea" stroke-width="1.8" marker-end="url(#mArrowPurple)"/>
+
+  <!-- ================= TIER 4: AUTONOMOUS MICROSERVICES TIER ================= -->
+  <g transform="translate(30, 440)" filter="url(#tierShadow)">
+    <rect width="890" height="150" rx="10" fill="url(#tierGrad)" stroke="#16a34a" stroke-width="1.8"/>
+    <text x="20" y="24" font-size="13" font-weight="bold" fill="#15803d">4. Autonomous Core Microservices Tier (Docker / Kubernetes Cluster)</text>
+
+    <!-- Svc 1 -->
+    <g transform="translate(20, 38)" filter="url(#elemShadow)">
+      <rect width="160" height="96" rx="6" fill="url(#greenCard)" stroke="#22c55e" stroke-width="1.4"/>
+      <text x="80" y="22" text-anchor="middle" font-size="11" font-weight="bold" fill="#14532d">🔐 Auth &amp; Remote ID</text>
+      <text x="80" y="44" text-anchor="middle" font-size="9.5" fill="#166534">FAA Part 89 Remote ID</text>
+      <text x="80" y="60" text-anchor="middle" font-size="9.5" fill="#166534">ECDSA Token Verify</text>
+      <text x="80" y="78" text-anchor="middle" font-size="9.5" fill="#475569">Go Microservice</text>
+    </g>
+
+    <!-- Svc 2 -->
+    <g transform="translate(195, 38)" filter="url(#elemShadow)">
+      <rect width="160" height="96" rx="6" fill="url(#greenCard)" stroke="#22c55e" stroke-width="1.4"/>
+      <text x="80" y="22" text-anchor="middle" font-size="11" font-weight="bold" fill="#14532d">📅 Flight Booking Svc</text>
+      <text x="80" y="44" text-anchor="middle" font-size="9.5" fill="#166534">3D Corridor Planning</text>
+      <text x="80" y="60" text-anchor="middle" font-size="9.5" fill="#166534">Priority Computation</text>
+      <text x="80" y="78" text-anchor="middle" font-size="9.5" fill="#475569">Python / FastAPI</text>
+    </g>
+
+    <!-- Svc 3: Highlighted Engine -->
+    <g transform="translate(370, 38)" filter="url(#elemShadow)">
+      <rect width="170" height="96" rx="6" fill="url(#amberCard)" stroke="#f59e0b" stroke-width="2"/>
+      <text x="85" y="22" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#78350f">⚡ Airspace Deconflict</text>
+      <text x="85" y="44" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#92400e">&gt;85% Load Throttling</text>
+      <text x="85" y="60" text-anchor="middle" font-size="9.5" fill="#b45309">Green Corridor Clear</text>
+      <text x="85" y="78" text-anchor="middle" font-size="9.5" fill="#475569">C++ / Go Engine</text>
+    </g>
+
+    <!-- Svc 4 -->
+    <g transform="translate(555, 38)" filter="url(#elemShadow)">
+      <rect width="160" height="96" rx="6" fill="url(#greenCard)" stroke="#22c55e" stroke-width="1.4"/>
+      <text x="80" y="22" text-anchor="middle" font-size="11" font-weight="bold" fill="#14532d">📊 3D Telemetry Radar</text>
+      <text x="80" y="44" text-anchor="middle" font-size="9.5" fill="#166534">Live Heatmap Stream</text>
+      <text x="80" y="60" text-anchor="middle" font-size="9.5" fill="#166534">Collision Avoidance</text>
+      <text x="80" y="78" text-anchor="middle" font-size="9.5" fill="#475569">Node.js / WebSocket</text>
+    </g>
+
+    <!-- Svc 5 -->
+    <g transform="translate(730, 38)" filter="url(#elemShadow)">
+      <rect width="140" height="96" rx="6" fill="url(#greenCard)" stroke="#22c55e" stroke-width="1.4"/>
+      <text x="70" y="22" text-anchor="middle" font-size="11" font-weight="bold" fill="#14532d">💳 Billing Engine</text>
+      <text x="70" y="44" text-anchor="middle" font-size="9.5" fill="#166534">Airway Tariffs</text>
+      <text x="70" y="60" text-anchor="middle" font-size="9.5" fill="#166534">Pad Service Fee</text>
+      <text x="70" y="78" text-anchor="middle" font-size="9.5" fill="#475569">Java / Spring Boot</text>
+    </g>
+  </g>
+
+  <!-- Downward Arrows from Microservices to Databases -->
+  <path d="M 275 590 L 275 625" stroke="#0284c7" stroke-width="1.8" marker-end="url(#mArrow)"/>
+  <path d="M 455 590 L 455 625" stroke="#d97706" stroke-width="1.8" marker-end="url(#mArrowAmber)"/>
+  <path d="M 635 590 L 635 625" stroke="#0284c7" stroke-width="1.8" marker-end="url(#mArrow)"/>
+
+  <!-- ================= TIER 5: POLYGLOT PERSISTENCE TIER ================= -->
+  <g transform="translate(30, 630)" filter="url(#tierShadow)">
+    <rect width="890" height="120" rx="10" fill="url(#tierGrad)" stroke="#0284c7" stroke-width="1.8"/>
+    <text x="20" y="24" font-size="13" font-weight="bold" fill="#0369a1">5. Polyglot Persistence Tier</text>
+
+    <!-- DB 1 -->
+    <g transform="translate(50, 36)" filter="url(#elemShadow)">
+      <rect width="240" height="66" rx="8" fill="url(#blueCard)" stroke="#0284c7" stroke-width="1.6"/>
+      <text x="120" y="25" text-anchor="middle" font-size="12" font-weight="bold" fill="#0369a1">🗄️ PostgreSQL RDBMS</text>
+      <text x="120" y="44" text-anchor="middle" font-size="10" fill="#334155">ACID Compliant Transactions</text>
+      <text x="120" y="58" text-anchor="middle" font-size="9.5" fill="#64748b">Users, Invoices, Vertiports</text>
+    </g>
+
+    <!-- DB 2 -->
+    <g transform="translate(325, 36)" filter="url(#elemShadow)">
+      <rect width="240" height="66" rx="8" fill="url(#amberCard)" stroke="#f59e0b" stroke-width="1.6"/>
+      <text x="120" y="25" text-anchor="middle" font-size="12" font-weight="bold" fill="#92400e">⚡ Redis In-Memory Cluster</text>
+      <text x="120" y="44" text-anchor="middle" font-size="10" fill="#334155">Sub-Millisecond Sector State</text>
+      <text x="120" y="58" text-anchor="middle" font-size="9.5" fill="#64748b">Live Sector Density &amp; Pad Locks</text>
+    </g>
+
+    <!-- DB 3 -->
+    <g transform="translate(600, 36)" filter="url(#elemShadow)">
+      <rect width="240" height="66" rx="8" fill="url(#blueCard)" stroke="#0284c7" stroke-width="1.6"/>
+      <text x="120" y="25" text-anchor="middle" font-size="12" font-weight="bold" fill="#0369a1">📈 TimescaleDB / InfluxDB</text>
+      <text x="120" y="44" text-anchor="middle" font-size="10" fill="#334155">Time-Series Spatial Telemetry</text>
+      <text x="120" y="58" text-anchor="middle" font-size="9.5" fill="#64748b">3D Coordinates, SoC Logs</text>
+    </g>
+  </g>
+</svg></div>
+<hr />
+<h3>3.3 Comparative Architectural Justification</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Architectural Attribute</th>
+<th style="text-align:left">Traditional Monolithic / Layered Architecture</th>
+<th style="text-align:left">Selected: Event-Driven Microservices</th>
+<th style="text-align:left">Deep Technical Justification for AeroGrid System</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>High-Frequency 3D Telemetry Ingestion</strong></td>
+<td style="text-align:left">❌ <strong>Thread Exhaustion:</strong> Synchronous HTTP request-per-second model bottlenecks under 50 drones streaming at $2\text{ Hz}$.</td>
+<td style="text-align:left">✅ <strong>High-Throughput Streaming:</strong> Kafka topics ingest $&gt; 15,000\text{ msgs/sec}$ with zero thread starvation.</td>
+<td style="text-align:left">50 drones broadcasting GPS, altitude, velocity, and battery SoC produce continuous telemetry that must not block flight booking APIs.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Sub-Second Airspace Deconfliction Latency</strong></td>
+<td style="text-align:left">❌ <strong>High Latency:</strong> Periodic database polling introduces $5 - 10\text{ s}$ lag, causing mid-air collision hazards.</td>
+<td style="text-align:left">✅ <strong>Reactive Real-Time Processing:</strong> Reactive Kafka event consumers process density spikes and dispatch overrides in $&lt; 50\text{ ms}$.</td>
+<td style="text-align:left">High-speed drones ($60\text{ km/h}$) cover $16.6\text{ meters/second}$; instant stepped throttling is safety-critical.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Fault Isolation &amp; Resilience</strong></td>
+<td style="text-align:left">❌ <strong>Single Point of Failure:</strong> Outage in the payment processing module crashes drone radar tracking.</td>
+<td style="text-align:left">✅ <strong>Decoupled Failure Domains:</strong> A crash in the Billing Service has zero effect on ongoing airborne deconfliction.</td>
+<td style="text-align:left">Drones continue safe navigation and collision avoidance even if third-party bank payment gateways go offline.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Independent Scalability</strong></td>
+<td style="text-align:left">❌ <strong>Monolithic Scaling:</strong> Entire application must be duplicated, wasting computational resources.</td>
+<td style="text-align:left">✅ <strong>Granular Elasticity:</strong> Telemetry and Deconfliction pods scale horizontally on Kubernetes (K8s) independently.</td>
+<td style="text-align:left">Allows the campus to scale from 50 to 500 vertiports by scaling only the lightweight MQTT ingestion broker and consumers.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1>Task 4: Project Estimation and Sizing</h1>
+<hr />
+<h3>4.1 Function Point Analysis (FPA)</h3>
+<p>Function Point Analysis provides a standardized, technology-agnostic measure of software size across 5 standard IFPUG categories:</p>
+<ol>
+<li><strong>External Inputs (EI):</strong> Inbound transactions modifying system state (e.g., Book Flight, Remote ID Auth, Telemetry Ingest).</li>
+<li><strong>External Outputs (EO):</strong> Outbound derived calculations, reports, or hardware command dispatches.</li>
+<li><strong>External Inquiries (EQ):</strong> On-demand spatial queries without state modification.</li>
+<li><strong>Internal Logical Files (ILF):</strong> Major data groupings maintained within the application boundary.</li>
+<li><strong>External Interface Files (EIF):</strong> Data structures maintained by external systems and referenced by AeroGrid.</li>
+</ol>
+<h4>Detailed Unadjusted Function Point (UFP) Computation Matrix</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Function Category</th>
+<th style="text-align:left">Functional Elementary Process</th>
+<th style="text-align:center">Complexity Rating</th>
+<th style="text-align:center">Standard IFPUG Weight</th>
+<th style="text-align:center">Item Count</th>
+<th style="text-align:center">Subtotal Points</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>External Inputs (EI)</strong></td>
+<td style="text-align:left">• Operator Account Registration &amp; UAV Profile<br>• 3D Flight Corridor Reservation Request<br>• Vertiport Remote ID Authentication<br>• Real-time Drone 3D Telemetry Ingestion<br>• Admin Airspace Sector &amp; Tariff Configuration</td>
+<td style="text-align:center">Average<br>Average<br>Low<br>High<br>Average</td>
+<td style="text-align:center">4<br>4<br>3<br>6<br>4</td>
+<td style="text-align:center">1<br>1<br>1<br>1<br>1</td>
+<td style="text-align:center">4<br>4<br>3<br>6<br>4</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>External Outputs (EO)</strong></td>
+<td style="text-align:left">• Dynamic Speed Override &amp; Holding Command Dispatch<br>• Itemized Flight Billing Receipt Generation<br>• Real-time 3D Radar SCADA Stream<br>• Emergency Return-to-Home (RTH) Signal</td>
+<td style="text-align:center">High<br>Average<br>High<br>High</td>
+<td style="text-align:center">7<br>5<br>7<br>7</td>
+<td style="text-align:center">1<br>1<br>1<br>1</td>
+<td style="text-align:center">7<br>5<br>7<br>7</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>External Inquiries (EQ)</strong></td>
+<td style="text-align:left">• Live Vertiport Availability &amp; Campus Map Query<br>• Active Flight Telemetry &amp; Remaining Battery Query<br>• Historical Operator Flight Logs Query</td>
+<td style="text-align:center">Low<br>Average<br>Low</td>
+<td style="text-align:center">3<br>4<br>3</td>
+<td style="text-align:center">1<br>1<br>1</td>
+<td style="text-align:center">3<br>4<br>3</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Internal Logical Files (ILF)</strong></td>
+<td style="text-align:left">• User Profile, Role &amp; Drone Registry Database<br>• Active Flight State &amp; Airspace Corridor Store<br>• Airspace Safety Policy &amp; Tariff Configuration Repository</td>
+<td style="text-align:center">Average<br>High<br>Average</td>
+<td style="text-align:center">10<br>15<br>10</td>
+<td style="text-align:center">1<br>1<br>1</td>
+<td style="text-align:center">10<br>15<br>10</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>External Interface Files (EIF)</strong></td>
+<td style="text-align:left">• Civil Aviation / Ground Radar SCADA Interface<br>• University ERP Single Sign-On &amp; Bank Gateway</td>
+<td style="text-align:center">High<br>Average</td>
+<td style="text-align:center">10<br>7</td>
+<td style="text-align:center">1<br>1</td>
+<td style="text-align:center">10<br>7</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Total Unadjusted Function Points (UFP)</strong></td>
+<td style="text-align:left"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><strong>108</strong></td>
+</tr>
+</tbody>
+</table>
+<p>$$\mathbf{\text{UFP} = 108}$$</p>
+<hr />
+<h3>4.2 General System Characteristics (14 GSCs) &amp; Value Adjustment Factor (VAF)</h3>
+<p>Each characteristic is evaluated on a scale from $0$ (No influence) to $5$ (Critical influence):</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">#</th>
+<th style="text-align:left">General System Characteristic (GSC)</th>
+<th style="text-align:center">Score ($C_i$)</th>
+<th style="text-align:left">Technical &amp; Domain Rationale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:left"><strong>Data Communications</strong></td>
+<td style="text-align:center"><strong>5</strong></td>
+<td style="text-align:left">Continuous high-frequency bidirectional MQTT communication over 4G/5G cellular.</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:left"><strong>Distributed Data Processing</strong></td>
+<td style="text-align:center"><strong>4</strong></td>
+<td style="text-align:left">Distributed edge computing at vertiport nodes coupled with cloud microservices.</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:left"><strong>Performance Objectives</strong></td>
+<td style="text-align:center"><strong>5</strong></td>
+<td style="text-align:left">Sub-100ms reaction time required for safety-critical collision avoidance and deconfliction.</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:left"><strong>Heavily Used Configuration</strong></td>
+<td style="text-align:center"><strong>4</strong></td>
+<td style="text-align:left">24/7 continuous operation with high concurrent drone flight turnover.</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td style="text-align:left"><strong>Transaction Rate</strong></td>
+<td style="text-align:center"><strong>5</strong></td>
+<td style="text-align:left">High-volume continuous 3D telemetry streams ($15,000\text{ msgs/s}$) and flight bookings.</td>
+</tr>
+<tr>
+<td style="text-align:center">6</td>
+<td style="text-align:left"><strong>Online Data Entry</strong></td>
+<td style="text-align:center"><strong>4</strong></td>
+<td style="text-align:left">Interactive mobile flight booking and automated pre-flight checks.</td>
+</tr>
+<tr>
+<td style="text-align:center">7</td>
+<td style="text-align:left"><strong>End-User Efficiency</strong></td>
+<td style="text-align:center"><strong>4</strong></td>
+<td style="text-align:left">Streamlined UI enabling flight corridor booking in $&lt; 3\text{ clicks}$ and instant auth.</td>
+</tr>
+<tr>
+<td style="text-align:center">8</td>
+<td style="text-align:left"><strong>Online Update</strong></td>
+<td style="text-align:center"><strong>4</strong></td>
+<td style="text-align:left">Immediate transactional updates for vertiport pad status and dynamic speed commands.</td>
+</tr>
+<tr>
+<td style="text-align:center">9</td>
+<td style="text-align:left"><strong>Complex Processing</strong></td>
+<td style="text-align:center"><strong>5</strong></td>
+<td style="text-align:left">Multi-variable 4D spatial-temporal deconfliction and priority-weighted throttling.</td>
+</tr>
+<tr>
+<td style="text-align:center">10</td>
+<td style="text-align:left"><strong>Reusability</strong></td>
+<td style="text-align:center"><strong>3</strong></td>
+<td style="text-align:left">Modular microservice components architected for replication across multiple airspaces.</td>
+</tr>
+<tr>
+<td style="text-align:center">11</td>
+<td style="text-align:left"><strong>Installation Ease</strong></td>
+<td style="text-align:center"><strong>3</strong></td>
+<td style="text-align:left">Standardized containerized deployment via Docker and Kubernetes manifests.</td>
+</tr>
+<tr>
+<td style="text-align:center">12</td>
+<td style="text-align:left"><strong>Operational Ease</strong></td>
+<td style="text-align:center"><strong>4</strong></td>
+<td style="text-align:left">Autonomous self-healing, automated failover, and zero-touch vertiport provisioning.</td>
+</tr>
+<tr>
+<td style="text-align:center">13</td>
+<td style="text-align:left"><strong>Multiple Sites</strong></td>
+<td style="text-align:center"><strong>3</strong></td>
+<td style="text-align:left">Distributed deployment across 4 distinct campus/hospital vertiport zones.</td>
+</tr>
+<tr>
+<td style="text-align:center">14</td>
+<td style="text-align:left"><strong>Facilitate Change</strong></td>
+<td style="text-align:center"><strong>4</strong></td>
+<td style="text-align:left">Modular architecture ready for future ASTM / FAA UTM standard upgrades.</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>Total</strong></td>
+<td style="text-align:left"><strong>Degree of Influence (DI)</strong></td>
+<td style="text-align:center"><strong>$\sum C_i = 57$</strong></td>
+<td style="text-align:left"></td>
+</tr>
+</tbody>
+</table>
+<h4>Value Adjustment Factor (VAF) Calculation:</h4>
+<p>$$\text{VAF} = 0.65 + \left(0.01 \times \sum_{i=1}^{14} C_i\right)$$
+$$\text{VAF} = 0.65 + (0.01 \times 57) = 0.65 + 0.57 = \mathbf{1.22}$$</p>
+<hr />
+<h3>4.3 Total Adjusted Function Points (FP) Calculation</h3>
+<p>$$\text{FP} = \text{UFP} \times \text{VAF}$$
+$$\text{FP} = 108 \times 1.22 = \mathbf{131.76\text{ Function Points}}$$</p>
+<hr />
+<h3>4.4 Software Sizing (SLOC / KLOC Translation)</h3>
+<p>Based on modern enterprise microservice engineering (<strong>Go / Python / TypeScript</strong>), the standard empirical conversion ratio is <strong>$50\text{ Lines of Code per Function Point}$</strong>:</p>
+<p>$$\text{Total SLOC} = \text{FP} \times 50 = 131.76 \times 50 = 6,588\text{ Lines of Code}$$
+$$\mathbf{\text{KLOC}} = \frac{6,588}{1,000} = \mathbf{6.588\text{ KLOC}}$$</p>
+<hr />
+<h3>4.5 Empirical Effort &amp; Schedule Estimation (Basic Organic COCOMO)</h3>
+<h4><strong>Project Category Classification: Organic Mode</strong></h4>
+<ul>
+<li><strong>Engineering Justification:</strong> The AeroGrid system is developed by an experienced in-house university engineering team working in a well-understood domain with stable interfaces and clear organizational specifications.</li>
+</ul>
+<h4>Standard Basic COCOMO Formulae &amp; Constants (Organic Mode):</h4>
+<p>$$a = 2.4, \quad b = 1.05, \quad c = 2.5, \quad d = 0.38$$</p>
+<hr />
+<h4>1. Development Effort Calculation:</h4>
+<p>$$\text{Effort} = a \times (\text{KLOC})^b \quad [\text{in Person-Months}]$$</p>
+<p>Substituting the project values:
+$$\text{Effort} = 2.4 \times (6.588)^{1.05}$$</p>
+<p>Step-by-step arithmetic derivation:
+$$(6.588)^{1.05} = e^{1.05 \times \ln(6.588)} = e^{1.05 \times 1.8852} = e^{1.9795} = 7.228$$
+$$\text{Effort} = 2.4 \times 7.228 = \mathbf{17.347\text{ Person-Months}} \approx \mathbf{17.35\text{ PM}}$$</p>
+<hr />
+<h4>2. Nominal Development Schedule (Time to Develop):</h4>
+<p>$$T_{\text{dev}} = c \times (\text{Effort})^d \quad [\text{in Calendar Months}]$$</p>
+<p>Substituting the calculated Effort:
+$$T_{\text{dev}} = 2.5 \times (17.347)^{0.38}$$</p>
+<p>Step-by-step arithmetic derivation:
+$$(17.347)^{0.38} = e^{0.38 \times \ln(17.347)} = e^{0.38 \times 2.8534} = e^{1.0843} = 2.957$$
+$$T_{\text{dev}} = 2.5 \times 2.957 = \mathbf{7.393\text{ Months}} \approx \mathbf{7.39\text{ Months}}$$</p>
+<hr />
+<h3>4.6 Staffing, Team Roles &amp; Productivity Analysis</h3>
+<h4><strong>Average Team Staffing Requirement:</strong></h4>
+<p>$$\text{Staff Size} = \frac{\text{Effort}}{T_{\text{dev}}} = \frac{17.347\text{ Person-Months}}{7.393\text{ Months}} = \mathbf{2.346 \approx 3\text{ Full-Time Software Engineers}}$$</p>
+<h4><strong>Team Role Allocation:</strong></h4>
+<ol>
+<li><strong>Lead Cloud &amp; Distributed Systems Engineer (1 FTE):</strong> Architecture of Kafka event bus, deconfliction algorithm, and database design.</li>
+<li><strong>Full-Stack Mobile &amp; Web Developer (1 FTE):</strong> Flutter mobile operator client app and React/WebGL 3D radar dashboard.</li>
+<li><strong>IoT Embedded Systems &amp; QA Engineer (1 FTE):</strong> MAVLink / MQTT vertiport controller integration, hardware-in-the-loop testing, and security validation.</li>
+</ol>
+<h4><strong>Calculated Project Productivity:</strong></h4>
+<p>$$\text{Productivity} = \frac{\text{SLOC}}{\text{Effort}} = \frac{6,588\text{ LOC}}{17.347\text{ Person-Months}} = \mathbf{379.78\text{ LOC / Person-Month}}$$</p>
+<hr />
+<h1>Academic References &amp; Standards Bibliography</h1>
+<ol>
+<li><strong>IEEE Standards Association (1998):</strong> <em>IEEE Std 830-1998: IEEE Recommended Practice for Software Requirements Specifications</em>, IEEE Computer Society.</li>
+<li><strong>Pressman, R. S., &amp; Maxim, B. R. (2020):</strong> <em>Software Engineering: A Practitioner's Approach</em> (9th Edition), McGraw-Hill Education.</li>
+<li><strong>Sommerville, I. (2016):</strong> <em>Software Engineering</em> (10th Edition), Pearson Education.</li>
+<li><strong>Boehm, B. W. (1981):</strong> <em>Software Engineering Economics</em>, Prentice-Hall (COCOMO Model Foundations).</li>
+<li><strong>International Function Point Users Group (IFPUG) (2010):</strong> <em>Function Point Counting Practices Manual (CPM 4.3.1)</em>, IFPUG Standards Committee.</li>
+<li><strong>ASTM International (2020):</strong> <em>Standard Specification for Remote ID and UTM Architecture (ASTM F3411-19)</em>, ASTM Standards.</li>
+</ol>
+<hr />
+<p><em>End of Assignment Report — AeroGrid Autonomous Drone Emergency Corridor &amp; Airspace Management System</em></p>
+
+</body>
+</html>

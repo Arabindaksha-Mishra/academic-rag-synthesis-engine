@@ -1,0 +1,208 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 950 600" width="100%" height="100%" style="background:#ffffff; font-family:'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;">
+  <defs>
+    <linearGradient id="ragTierGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#f1f5f9"/>
+    </linearGradient>
+    <linearGradient id="ragBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#e0f2fe"/>
+    </linearGradient>
+    <linearGradient id="ragPurple" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f3e8ff"/>
+    </linearGradient>
+    <linearGradient id="ragAmber" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#fef3c7"/>
+    </linearGradient>
+    <linearGradient id="ragGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#dcfce7"/>
+    </linearGradient>
+    <filter id="ragShadow" x="-3%" y="-3%" width="106%" height="106%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.08"/>
+    </filter>
+    <marker id="ragArrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#0284c7" />
+    </marker>
+  </defs>
+
+  <!-- Title Banner -->
+  <text x="475" y="32" text-anchor="middle" font-size="18" font-weight="bold" fill="#0f172a">Academic RAG End-to-End System Architecture</text>
+
+  <!-- Phase 1: Ingestion -->
+  <g transform="translate(30, 50)" filter="url(#ragShadow)">
+    <rect width="165" height="490" rx="10" fill="url(#ragTierGrad)" stroke="#38bdf8" stroke-width="1.8"/>
+    <text x="82" y="26" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#0369a1">1. Source Ingestion</text>
+
+    <!-- Source Items -->
+    <g transform="translate(12, 45)">
+      <rect width="141" height="90" rx="6" fill="url(#ragBlue)" stroke="#38bdf8" stroke-width="1.2"/>
+      <text x="70" y="24" text-anchor="middle" font-size="11" font-weight="bold" fill="#0f172a">📄 PDF Lectures</text>
+      <text x="70" y="44" text-anchor="middle" font-size="9.5" fill="#475569">13 Modules</text>
+      <text x="70" y="62" text-anchor="middle" font-size="9.5" fill="#475569">(CS01 - CS12)</text>
+      <text x="70" y="80" text-anchor="middle" font-size="9" font-weight="600" fill="#0284c7">PyPDF Parser</text>
+    </g>
+
+    <g transform="translate(12, 150)">
+      <rect width="141" height="90" rx="6" fill="url(#ragBlue)" stroke="#38bdf8" stroke-width="1.2"/>
+      <text x="70" y="24" text-anchor="middle" font-size="11" font-weight="bold" fill="#0f172a">📊 Slide Decks</text>
+      <text x="70" y="44" text-anchor="middle" font-size="9.5" fill="#475569">CS13 Testing</text>
+      <text x="70" y="62" text-anchor="middle" font-size="9.5" fill="#475569">(PPTX Format)</text>
+      <text x="70" y="80" text-anchor="middle" font-size="9" font-weight="600" fill="#0284c7">python-pptx</text>
+    </g>
+
+    <g transform="translate(12, 255)">
+      <rect width="141" height="90" rx="6" fill="url(#ragBlue)" stroke="#38bdf8" stroke-width="1.2"/>
+      <text x="70" y="24" text-anchor="middle" font-size="11" font-weight="bold" fill="#0f172a">📋 Rubric Spec</text>
+      <text x="70" y="44" text-anchor="middle" font-size="9.5" fill="#475569">20 Marks Rubric</text>
+      <text x="70" y="62" text-anchor="middle" font-size="9.5" fill="#475569">SE_Assignment</text>
+      <text x="70" y="80" text-anchor="middle" font-size="9" font-weight="600" fill="#0284c7">Constraint Extractor</text>
+    </g>
+
+    <g transform="translate(12, 360)">
+      <rect width="141" height="90" rx="6" fill="url(#ragBlue)" stroke="#38bdf8" stroke-width="1.2"/>
+      <text x="70" y="24" text-anchor="middle" font-size="11" font-weight="bold" fill="#0f172a">📑 Benchmarks</text>
+      <text x="70" y="44" text-anchor="middle" font-size="9.5" fill="#475569">IEEE 830 Standards</text>
+      <text x="70" y="62" text-anchor="middle" font-size="9.5" fill="#475569">UML 2.5 Schemas</text>
+      <text x="70" y="80" text-anchor="middle" font-size="9" font-weight="600" fill="#0284c7">Structural Patterns</text>
+    </g>
+  </g>
+
+  <!-- Flow Arrow 1 to 2 -->
+  <path d="M 195 295 L 218 295" stroke="#0284c7" stroke-width="2" marker-end="url(#ragArrow)"/>
+
+  <!-- Phase 2: Chunking -->
+  <g transform="translate(225, 110)" filter="url(#ragShadow)">
+    <rect width="155" height="370" rx="10" fill="url(#ragTierGrad)" stroke="#0284c7" stroke-width="1.8"/>
+    <text x="77" y="26" text-anchor="middle" font-size="12" font-weight="bold" fill="#0369a1">2. Semantic Chunking</text>
+
+    <g transform="translate(12, 45)">
+      <rect width="131" height="95" rx="6" fill="#ffffff" stroke="#0284c7" stroke-width="1.2"/>
+      <text x="65" y="22" text-anchor="middle" font-size="11" font-weight="bold" fill="#0f172a">Slide / Page</text>
+      <text x="65" y="38" text-anchor="middle" font-size="11" font-weight="bold" fill="#0f172a">Segmentation</text>
+      <text x="65" y="62" text-anchor="middle" font-size="9.5" fill="#64748b">1 Slide = 1 Chunk</text>
+      <text x="65" y="80" text-anchor="middle" font-size="9" font-weight="bold" fill="#0284c7">596 Total Chunks</text>
+    </g>
+
+    <g transform="translate(12, 160)">
+      <rect width="131" height="95" rx="6" fill="#ffffff" stroke="#0284c7" stroke-width="1.2"/>
+      <text x="65" y="22" text-anchor="middle" font-size="11" font-weight="bold" fill="#0f172a">Rich Metadata</text>
+      <text x="65" y="38" text-anchor="middle" font-size="11" font-weight="bold" fill="#0f172a">Injection</text>
+      <text x="65" y="58" text-anchor="middle" font-size="9" fill="#475569">• File Origin</text>
+      <text x="65" y="72" text-anchor="middle" font-size="9" fill="#475569">• Page / Slide #</text>
+      <text x="65" y="86" text-anchor="middle" font-size="9" fill="#475569">• Module Topic</text>
+    </g>
+
+    <g transform="translate(12, 275)">
+      <rect width="131" height="75" rx="6" fill="url(#ragPurple)" stroke="#c084fc" stroke-width="1.2"/>
+      <text x="65" y="22" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#581c87">Embeddings</text>
+      <text x="65" y="40" text-anchor="middle" font-size="9" fill="#6b21a8">all-MiniLM-L6-v2</text>
+      <text x="65" y="58" text-anchor="middle" font-size="9" font-weight="600" fill="#581c87">384-Dim Vectors</text>
+    </g>
+  </g>
+
+  <!-- Flow Arrow 2 to 3 -->
+  <path d="M 380 295 L 405 295" stroke="#0284c7" stroke-width="2" marker-end="url(#ragArrow)"/>
+
+  <!-- Phase 3: Vector Store & Retrieval -->
+  <g transform="translate(412, 110)" filter="url(#ragShadow)">
+    <rect width="165" height="370" rx="10" fill="url(#ragTierGrad)" stroke="#9333ea" stroke-width="1.8"/>
+    <text x="82" y="26" text-anchor="middle" font-size="12" font-weight="bold" fill="#6b21a8">3. ChromaDB &amp; Search</text>
+
+    <g transform="translate(12, 45)">
+      <rect width="141" height="95" rx="6" fill="url(#ragPurple)" stroke="#a855f7" stroke-width="1.2"/>
+      <text x="70" y="22" text-anchor="middle" font-size="11" font-weight="bold" fill="#581c87">🗄️ ChromaDB Store</text>
+      <text x="70" y="44" text-anchor="middle" font-size="9.5" fill="#6b21a8">In-Memory Index</text>
+      <text x="70" y="62" text-anchor="middle" font-size="9.5" fill="#6b21a8">Fast Cosine Sim</text>
+      <text x="70" y="80" text-anchor="middle" font-size="9" font-weight="bold" fill="#7e22ce">&lt;50ms Latency</text>
+    </g>
+
+    <g transform="translate(12, 160)">
+      <rect width="141" height="190" rx="6" fill="#ffffff" stroke="#a855f7" stroke-width="1.2"/>
+      <text x="70" y="22" text-anchor="middle" font-size="11" font-weight="bold" fill="#0f172a">Task Query Router</text>
+      <text x="70" y="46" text-anchor="middle" font-size="9.5" font-weight="600" fill="#0369a1">Task 1: IEEE 830</text>
+      <text x="70" y="62" text-anchor="middle" font-size="8.5" fill="#64748b">FRs &amp; NFR SLAs</text>
+      <text x="70" y="86" text-anchor="middle" font-size="9.5" font-weight="600" fill="#0369a1">Task 2: Modeling</text>
+      <text x="70" y="102" text-anchor="middle" font-size="8.5" fill="#64748b">Use Case &amp; Activity</text>
+      <text x="70" y="126" text-anchor="middle" font-size="9.5" font-weight="600" fill="#0369a1">Task 3: 4+1 View</text>
+      <text x="70" y="142" text-anchor="middle" font-size="8.5" fill="#64748b">Class &amp; Microservices</text>
+      <text x="70" y="166" text-anchor="middle" font-size="9.5" font-weight="600" fill="#0369a1">Task 4: Sizing</text>
+      <text x="70" y="180" text-anchor="middle" font-size="8.5" fill="#64748b">FPA &amp; COCOMO</text>
+    </g>
+  </g>
+
+  <!-- Flow Arrow 3 to 4 -->
+  <path d="M 577 295 L 602 295" stroke="#0284c7" stroke-width="2" marker-end="url(#ragArrow)"/>
+
+  <!-- Phase 4: Synthesis & Deterministic Math -->
+  <g transform="translate(608, 110)" filter="url(#ragShadow)">
+    <rect width="155" height="370" rx="10" fill="url(#ragTierGrad)" stroke="#f59e0b" stroke-width="1.8"/>
+    <text x="77" y="26" text-anchor="middle" font-size="12" font-weight="bold" fill="#78350f">4. Synthesis Engine</text>
+
+    <g transform="translate(12, 45)">
+      <rect width="131" height="95" rx="6" fill="url(#ragAmber)" stroke="#f59e0b" stroke-width="1.2"/>
+      <text x="65" y="22" text-anchor="middle" font-size="11" font-weight="bold" fill="#78350f">AeroGrid Domain</text>
+      <text x="65" y="44" text-anchor="middle" font-size="9.5" fill="#92400e">Drone Airspace</text>
+      <text x="65" y="62" text-anchor="middle" font-size="9.5" fill="#92400e">50 Vertiports</text>
+      <text x="65" y="80" text-anchor="middle" font-size="9" font-weight="bold" fill="#b45309">&gt;85% Throttling</text>
+    </g>
+
+    <g transform="translate(12, 160)">
+      <rect width="131" height="95" rx="6" fill="url(#ragAmber)" stroke="#f59e0b" stroke-width="1.2"/>
+      <text x="65" y="22" text-anchor="middle" font-size="11" font-weight="bold" fill="#78350f">COCOMO Math</text>
+      <text x="65" y="44" text-anchor="middle" font-size="9.5" fill="#92400e">UFP = 108</text>
+      <text x="65" y="62" text-anchor="middle" font-size="9.5" fill="#92400e">FP = 131.76</text>
+      <text x="65" y="80" text-anchor="middle" font-size="9" font-weight="bold" fill="#b45309">Effort: 17.35 PM</text>
+    </g>
+
+    <g transform="translate(12, 275)">
+      <rect width="131" height="75" rx="6" fill="url(#ragAmber)" stroke="#f59e0b" stroke-width="1.2"/>
+      <text x="65" y="22" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#78350f">Vector SVGs</text>
+      <text x="65" y="42" text-anchor="middle" font-size="9" fill="#92400e">Native Inline</text>
+      <text x="65" y="60" text-anchor="middle" font-size="9" font-weight="bold" fill="#b45309">0% Syntax Errors</text>
+    </g>
+  </g>
+
+  <!-- Flow Arrow 4 to 5 -->
+  <path d="M 763 295 L 788 295" stroke="#0284c7" stroke-width="2" marker-end="url(#ragArrow)"/>
+
+  <!-- Phase 5: Deliverables Output -->
+  <g transform="translate(795, 50)" filter="url(#ragShadow)">
+    <rect width="125" height="490" rx="10" fill="url(#ragTierGrad)" stroke="#16a34a" stroke-width="1.8"/>
+    <text x="62" y="26" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">5. Deliverables</text>
+
+    <g transform="translate(10, 45)">
+      <rect width="105" height="90" rx="6" fill="url(#ragGreen)" stroke="#16a34a" stroke-width="1.2"/>
+      <text x="52" y="26" text-anchor="middle" font-size="11" font-weight="bold" fill="#14532d">📄 PDF</text>
+      <text x="52" y="48" text-anchor="middle" font-size="9" fill="#166534">16 Pages</text>
+      <text x="52" y="66" text-anchor="middle" font-size="9" fill="#166534">A4 Print</text>
+      <text x="52" y="80" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#15803d">Final Report</text>
+    </g>
+
+    <g transform="translate(10, 150)">
+      <rect width="105" height="90" rx="6" fill="url(#ragGreen)" stroke="#16a34a" stroke-width="1.2"/>
+      <text x="52" y="26" text-anchor="middle" font-size="11" font-weight="bold" fill="#14532d">📝 DOCX</text>
+      <text x="52" y="48" text-anchor="middle" font-size="9" fill="#166534">Google Docs</text>
+      <text x="52" y="66" text-anchor="middle" font-size="9" fill="#166534">MS Word</text>
+      <text x="52" y="80" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#15803d">Styled Tables</text>
+    </g>
+
+    <g transform="translate(10, 255)">
+      <rect width="105" height="90" rx="6" fill="url(#ragGreen)" stroke="#16a34a" stroke-width="1.2"/>
+      <text x="52" y="26" text-anchor="middle" font-size="11" font-weight="bold" fill="#14532d">🌐 HTML</text>
+      <text x="52" y="48" text-anchor="middle" font-size="9" fill="#166534">Interactive</text>
+      <text x="52" y="66" text-anchor="middle" font-size="9" fill="#166534">MathJax</text>
+      <text x="52" y="80" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#15803d">Live Preview</text>
+    </g>
+
+    <g transform="translate(10, 360)">
+      <rect width="105" height="90" rx="6" fill="url(#ragGreen)" stroke="#16a34a" stroke-width="1.2"/>
+      <text x="52" y="26" text-anchor="middle" font-size="11" font-weight="bold" fill="#14532d">📄 Markdown</text>
+      <text x="52" y="48" text-anchor="middle" font-size="9" fill="#166534">Source .md</text>
+      <text x="52" y="66" text-anchor="middle" font-size="9" fill="#166534">GitHub GFM</text>
+      <text x="52" y="80" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#15803d">Versioned</text>
+    </g>
+  </g>
+</svg>
