@@ -31,6 +31,15 @@ class DiagramType(Enum):
     MICROSERVICES = "microservices"
 
 
+@unique
+class COCOMOModel(Enum):
+    """Enumeration of standard Basic COCOMO software project categories."""
+
+    ORGANIC = "organic"
+    SEMIDETACHED = "semidetached"
+    EMBEDDED = "embedded"
+
+
 @dataclass(frozen=True)
 class DocumentChunk:
     """Represents a discrete semantic knowledge chunk extracted from a document.
@@ -53,7 +62,7 @@ class DocumentChunk:
         """Serializes chunk metadata for vector database storage.
 
         Returns:
-            dict[str, Union[str, int]]: Dictionary storing source metadata.
+            dict[str, str | int]: Dictionary storing source metadata.
         """
         return {
             "source": self.source_file,
@@ -91,8 +100,117 @@ def build_chunk(
 
 
 @dataclass(frozen=True)
+class ProjectParameters:
+    """Dynamic project specification and mathematical parameter configuration.
+
+    Attributes:
+        system_name: Name of the target software system.
+        domain: Industry vertical (e.g., 'Autonomous Drone Fleet Traffic Management').
+        nfr_latency_p99_ms: P99 latency requirement threshold in milliseconds.
+        nfr_availability_pct: High-availability SLA target percentage.
+        nfr_telemetry_hz: Telemetry ingestion throughput frequency in Hz.
+        ufp_inputs: External Inputs count.
+        ufp_outputs: External Outputs count.
+        ufp_inquiries: External Inquiries count.
+        ufp_internal_files: Internal Logical Files count.
+        ufp_external_interfaces: External Interface Files count.
+        complexity_adjustment_factors_sum: Sum of 14 GSC degrees of influence.
+        cocomo_category: Organic, Semidetached, or Embedded project model.
+        loc_per_function_point: Lines of code multiplier per function point.
+        labor_cost_per_person_month_usd: Blended engineering labor rate in USD.
+    """
+
+    system_name: str = "AeroGrid"
+    domain: str = "Autonomous Drone Fleet Traffic Management"
+    nfr_latency_p99_ms: int = 150
+    nfr_availability_pct: float = 99.999
+    nfr_telemetry_hz: int = 100
+    ufp_inputs: int = 6
+    ufp_outputs: int = 5
+    ufp_inquiries: int = 4
+    ufp_internal_files: int = 4
+    ufp_external_interfaces: int = 3
+    complexity_adjustment_factors_sum: int = 42
+    cocomo_category: COCOMOModel = COCOMOModel.SEMIDETACHED
+    loc_per_function_point: int = 53
+    labor_cost_per_person_month_usd: float = 8500.0
+
+
+@dataclass(frozen=True)
+class FPSizingResult:
+    """Results of dynamic Function Point analysis and code size derivation.
+
+    Attributes:
+        unadjusted_function_points: Computed raw UFP value.
+        value_adjustment_factor: Computed VAF based on degrees of influence.
+        adjusted_function_points: Final AFP value.
+        derived_kloc: Derived thousands of source lines of code.
+    """
+
+    unadjusted_function_points: int
+    value_adjustment_factor: float
+    adjusted_function_points: float
+    derived_kloc: float
+
+
+@dataclass(frozen=True)
+class COCOMOResult:
+    """Results of dynamic Basic COCOMO effort and duration estimation.
+
+    Attributes:
+        effort_person_months: Total required development effort in Person-Months.
+        development_time_months: Nominal project duration in calendar months.
+        average_staff_size: Recommended full-time engineering team headcount.
+        estimated_total_cost_usd: Total estimated engineering labor cost.
+        productivity_loc_per_pm: Computed productivity in LOC per Person-Month.
+    """
+
+    effort_person_months: float
+    development_time_months: float
+    average_staff_size: float
+    estimated_total_cost_usd: float
+    productivity_loc_per_pm: float
+
+
+@dataclass(frozen=True)
+class QueryMatch:
+    """Represents an individual semantically retrieved document match.
+
+    Attributes:
+        content: Extracted textual chunk body.
+        source: Originating document filename.
+        page_or_slide: Page or slide number.
+        doc_type: Document classification tag.
+        relevance_score: Optional similarity or distance metric score.
+    """
+
+    content: str
+    source: str
+    page_or_slide: int
+    doc_type: str
+    relevance_score: float | None = None
+
+
+@dataclass(frozen=True)
+class QueryResponse:
+    """Structured response container for semantic search queries.
+
+    Attributes:
+        query: Original natural language search query.
+        matches: List of retrieved QueryMatch objects.
+        formatted_context: Formatted Markdown context blocks with citations.
+        total_indexed_chunks: Total chunks active in vector index.
+    """
+
+    query: str
+    matches: list[QueryMatch]
+    formatted_context: str
+    total_indexed_chunks: int
+
+
+@dataclass(frozen=True)
 class RAGConfig:
-    """Configuration settings for embedding models and vector database collections.
+    """Configuration settings for embedding models and vector collections.
 
     Attributes:
         embedding_model_name: HuggingFace sentence-transformer model tag.
