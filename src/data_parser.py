@@ -1,8 +1,8 @@
-"""Document Parsing and Extraction Engine.
+"""Multi-Modal Document Extractors, Parsers, and Chunking Registry.
 
-Provides extensible, multi-modal document extraction strategies for parsing
-heterogeneous academic materials (PDF lecture notes, presentation slide decks,
-and curriculum rubric specifications) into discrete, typed semantic chunks.
+Implements the Strategy Pattern for extracting structured semantic chunks
+from Adobe PDF documents and Microsoft PowerPoint presentations with automatic
+format fallback handling and metadata preservation.
 """
 
 from __future__ import annotations
@@ -11,81 +11,85 @@ import logging
 import os
 import sys
 from abc import ABC, abstractmethod
+from collections.abc import Sequence
 from pathlib import Path
 from typing import Any, Final
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-
 from pptx import Presentation
+from pptx.slide import Slide
 from pypdf import PdfReader
+from pypdf.errors import PyPdfError
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from src.data_modal import DocumentChunk, build_chunk
 
 logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s [%(levelname)s] %(name)s: %(message)s"
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
 )
 logger: Final[logging.Logger] = logging.getLogger("DataParser")
 
 
-def extract_paragraph_texts(shape: Any) -> list[str]:
-    """Helper function to extract non-empty text strings from a shape frame.
+def extract_paragraph_texts(paragraphs: Sequence[Any]) -> list[str]:
+    """Helper function to extract non-empty cleaned strings from text paragraphs.
 
     Args:
-        shape: PPTX slide shape object.
+        paragraphs: Collection of paragraph objects containing raw text.
 
     Returns:
-        list[str]: Cleaned paragraph strings.
+        list[str]: Cleaned, non-empty text strings.
     """
-    if not hasattr(shape, "has_text_frame") or not shape.has_text_frame:
-        return []
-    lines: list[str] = []
-    for paragraph in shape.text_frame.paragraphs:
-        cleaned: str = paragraph.text.strip()
-        if cleaned:
-            lines.append(cleaned)
-    return lines
+    results: list[str] = []
+    for p in paragraphs:
+        text_content: str = p.text.strip()
+        if text_content:
+            results.append(text_content)
+    return results
 
 
-def extract_slide_text(slide: Any) -> str:
-    """Helper function to aggregate all text content across shapes in a slide.
+def extract_slide_text(slide: Slide) -> str:
+    """Helper function extracting all text runs from shapes within a PowerPoint slide.
 
     Args:
-        slide: PPTX slide object.
+        slide: Target PowerPoint slide instance.
 
     Returns:
-        str: Cleaned newline-separated slide text.
+        str: Consolidated newline-delimited slide text.
     """
     text_runs: list[str] = []
     for shape in slide.shapes:
-        text_runs.extend(extract_paragraph_texts(shape))
-    return "\n".join(text_runs).strip()
+        if shape.has_text_frame:
+            extracted: list[str] = extract_paragraph_texts(shape.text_frame.paragraphs)
+            text_runs.extend(extracted)
+    return "\n".join(text_runs)
 
 
 def extract_page_text(page: Any) -> str | None:
-    """Helper function to extract and strip text from a PDF page object.
+    """Helper function safely extracting text content from a PyPDF page.
 
     Args:
         page: PyPDF page object.
 
     Returns:
-        Optional[str]: Cleaned string if text is present, None otherwise.
+        str | None: Cleaned text string if extraction succeeds, None otherwise.
     """
-    raw_text: str | None = page.extract_text()
-    if raw_text:
-        cleaned: str = raw_text.strip()
-        return cleaned if cleaned else None
-    return None
+    try:
+        raw_text: str | None = page.extract_text()
+        return raw_text.strip() if raw_text else None
+    except (PyPdfError, KeyError, ValueError, OSError):
+        return None
 
 
 class BaseDocumentExtractor(ABC):
-    """Abstract Base Class defining document extraction strategy interface."""
+    """Abstract Base Class establishing the strategy interface for file extraction."""
 
     @abstractmethod
     def can_handle(self, file_path: str) -> bool:
-        """Determines if the extractor supports the given file format.
+        """Determines if the extractor strategy supports the given file format.
 
         Args:
-            file_path: Absolute or relative path to the candidate file.
+            file_path: Path to the target document.
 
         Returns:
             bool: True if supported, False otherwise.
@@ -93,42 +97,48 @@ class BaseDocumentExtractor(ABC):
 
     @abstractmethod
     def extract_chunks(
-        self, file_path: str, start_chunk_id: int, min_length: int = 25
+        self,
+        file_path: str,
+        start_chunk_id: int,
+        min_length: int = 25,
     ) -> list[DocumentChunk]:
-        """Extracts discrete semantic chunks from the source document.
+        """Extracts structured document chunks with attached metadata.
 
         Args:
-            file_path: Path to the target document.
-            start_chunk_id: Starting integer sequence for unique chunk IDs.
-            min_length: Minimum character threshold for valid content.
+            file_path: Path to the source file.
+            start_chunk_id: Current chunk ID integer counter.
+            min_length: Minimum character count required to keep a chunk.
 
         Returns:
-            list[DocumentChunk]: Extracted and validated document chunks.
+            list[DocumentChunk]: List of extracted DocumentChunk objects.
         """
 
 
 class PPTXExtractor(BaseDocumentExtractor):
-    """Extractor strategy for PowerPoint slide presentations (.pptx, .ppt)."""
+    """Extractor strategy for Microsoft PowerPoint slide presentations (.pptx, .ppt)."""
 
     def can_handle(self, file_path: str) -> bool:
-        """Checks if the file extension corresponds to a presentation.
+        """Checks if the file extension corresponds to a presentation format.
 
         Args:
             file_path: Path to the target file.
 
         Returns:
-            bool: True if presentation format, False otherwise.
+            bool: True if PPT/PPTX format, False otherwise.
         """
-        ext: str = os.path.splitext(file_path)[1].lower()
-        return ext in (".pptx", ".ppt")
+        lowered: str = file_path.lower()
+        return lowered.endswith((".pptx", ".ppt"))
 
     def extract_chunks(
-        self, file_path: str, start_chunk_id: int, min_length: int = 25
+        self,
+        file_path: str,
+        start_chunk_id: int,
+        min_length: int = 25,
     ) -> list[DocumentChunk]:
-        """Extracts text slide-by-slide from presentation shape text frames.
+        """Extracts text frame content slide-by-slide from presentations.
 
         Args:
-            file_path: Path to the presentation file.
+            file_path: Path to the PowerPoint file.
             start_chunk_id: Current chunk ID counter.
             min_length: Minimum text length filter.
 
@@ -151,7 +161,7 @@ class PPTXExtractor(BaseDocumentExtractor):
                         chunk_index=current_id,
                     )
                     chunks.append(chunk_obj)
-        except Exception as err:
+        except (KeyError, ValueError, OSError, AttributeError, TypeError) as err:
             logger.warning(f"PPTX extraction bypassed for {filename}: {err}")
         return chunks
 
@@ -171,7 +181,10 @@ class PDFExtractor(BaseDocumentExtractor):
         return file_path.lower().endswith(".pdf")
 
     def extract_chunks(
-        self, file_path: str, start_chunk_id: int, min_length: int = 25
+        self,
+        file_path: str,
+        start_chunk_id: int,
+        min_length: int = 25,
     ) -> list[DocumentChunk]:
         """Extracts text page-by-page from PDF documents using PyPDF.
 
@@ -199,7 +212,7 @@ class PDFExtractor(BaseDocumentExtractor):
                         chunk_index=current_id,
                     )
                     chunks.append(chunk_obj)
-        except Exception as err:
+        except (PyPdfError, KeyError, ValueError, OSError) as err:
             logger.warning(f"PDF extraction bypassed for {filename}: {err}")
         return chunks
 
@@ -223,7 +236,10 @@ class DocumentExtractorRegistry:
         self._extractors.insert(0, extractor)
 
     def extract_from_file(
-        self, file_path: str, start_chunk_id: int, min_length: int = 25
+        self,
+        file_path: str,
+        start_chunk_id: int,
+        min_length: int = 25,
     ) -> list[DocumentChunk]:
         """Attempts extraction across strategies with fallback handling.
 
@@ -255,7 +271,7 @@ class DocumentExtractorRegistry:
                     )
                     if fallback_chunks:
                         return fallback_chunks
-                except Exception:
-                    pass
+                except (PyPdfError, KeyError, ValueError, OSError):
+                    continue
 
         return []

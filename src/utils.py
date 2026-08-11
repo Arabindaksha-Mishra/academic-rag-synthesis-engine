@@ -367,6 +367,6 @@ class HeadlessPDFCompiler:
                     f"Chrome PDF failed (code {result.returncode}): {result.stderr}"
                 )
                 return False
-        except Exception as err:
+        except (subprocess.SubprocessError, OSError) as err:
             logger.error(f"Exception during Chrome PDF compilation: {err}")
             return False

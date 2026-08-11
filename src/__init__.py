@@ -1,8 +1,8 @@
 """Academic RAG Synthesis Engine Core Package.
 
 Provides high-performance multi-modal document extraction, ChromaDB
-vector indexing, semantic grounding, dynamic parameterized report synthesis,
-directory file watcher hot-reloading, and FastAPI REST endpoints.
+vector indexing, LangChain hybrid ensemble retrieval, semantic grounding,
+parameterized report synthesis, directory file watcher, and FastAPI REST API.
 """
 
 from src.api_server import app, run_api_server
@@ -26,6 +26,12 @@ from src.data_parser import (
     DocumentExtractorRegistry,
     PDFExtractor,
     PPTXExtractor,
+)
+from src.langchain_pipeline import (
+    LangChainAcademicRAGPipeline,
+    convert_chunk_to_langchain_document,
+    create_hybrid_ensemble_retriever,
+    format_langchain_documents,
 )
 from src.rag_pipeline import AcademicRAGPipeline
 from src.synthesis_engine import (
@@ -66,6 +72,7 @@ __all__ = [
     "FPSizingResult",
     "HeadlessPDFCompiler",
     "KnowledgeBaseChangeHandler",
+    "LangChainAcademicRAGPipeline",
     "MarkdownDocumentRenderer",
     "PDFExtractor",
     "PPTXExtractor",
@@ -77,6 +84,9 @@ __all__ = [
     "build_chunk",
     "compute_cocomo_metrics",
     "compute_function_points",
+    "convert_chunk_to_langchain_document",
+    "create_hybrid_ensemble_retriever",
+    "format_langchain_documents",
     "get_activity_svg",
     "get_all_diagrams",
     "get_class_diagram_svg",

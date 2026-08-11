@@ -95,6 +95,7 @@ academic-rag-synthesis-engine/
 │   ├── dashboard_html.py               # Responsive Single-Page Web Dashboard Template
 │   ├── utils.py                        # Rendering Engine & Headless Chrome Compiler
 │   ├── rag_pipeline.py                 # Multi-Modal Academic RAG Pipeline (ChromaDB)
+│   ├── langchain_pipeline.py           # Hybrid Ensemble Retriever (Dense Chroma + Sparse BM25)
 │   ├── build_solution.py               # Master Deliverable Builder Orchestrator
 │   └── vector_svgs.py                  # High-Resolution UML 2.5 Vector SVG Library
 │
@@ -103,8 +104,8 @@ academic-rag-synthesis-engine/
 │   └── rubrics/                        # Official Assignment Specifications (SE_Assignment_2026.pdf)
 │
 ├── docs/                               # Architecture & Technical Guides
-│   ├── CONCEPTS_AND_THEORY_GUIDE.md    # Comprehensive Software Engineering & RAG Concepts
-│   ├── RAG_ARCHITECTURE.md             # RAG Engine Retrieval & Pipeline Architecture
+│   ├── SYSTEM_ARCHITECTURE.md          # Complete End-to-End System Architecture & Stack
+│   ├── AI_AND_LLM_DEEP_DIVE.md         # Pure AI/LLM Theory, Failure Modes & RAG Solutions
 │   ├── TECHNICAL_MENTOR_GUIDE.md       # Technical Architecture & Evaluation Guide
 │   └── assets/                         # Architecture Diagrams & Visual Assets
 │       └── rag_architecture.svg

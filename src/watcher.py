@@ -14,6 +14,7 @@ import time
 from pathlib import Path
 from typing import Final
 
+from pypdf.errors import PyPdfError
 from watchdog.events import FileSystemEvent, FileSystemEventHandler
 from watchdog.observers import Observer
 
@@ -95,7 +96,7 @@ class KnowledgeBaseChangeHandler(FileSystemEventHandler):
                     f"{os.path.basename(file_path)}. Total: "
                     f"{self.pipeline.indexed_chunks_count}"
                 )
-        except Exception as err:
+        except (PyPdfError, KeyError, ValueError, OSError) as err:
             logger.error(f"Failed to incrementally index {file_path}: {err}")
 
 

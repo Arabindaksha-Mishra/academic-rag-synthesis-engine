@@ -1,8 +1,8 @@
 """Dynamic FastAPI REST API & Interactive Web Dashboard.
 
-Provides interactive REST endpoints for semantic RAG queries, real-time
-document uploads with automatic vector indexing, live parameterized sizing
-computations, and dynamic PDF/HTML deliverable compilation.
+Provides interactive REST endpoints for semantic RAG queries, LangChain
+hybrid ensemble retrieval (Dense + BM25), real-time document uploads,
+live parameterized sizing computations, and dynamic PDF/HTML compilation.
 """
 
 from __future__ import annotations
@@ -30,6 +30,7 @@ from src.data_modal import (
     QueryMatch,
     QueryResponse,
 )
+from src.langchain_pipeline import LangChainAcademicRAGPipeline
 from src.rag_pipeline import AcademicRAGPipeline
 from src.synthesis_engine import (
     compute_cocomo_metrics,
@@ -54,13 +55,17 @@ repo_root: str = str(Path(__file__).resolve().parent.parent)
 rag_engine: AcademicRAGPipeline = AcademicRAGPipeline(workspace_path=repo_root)
 rag_engine.ingest_knowledge_base()
 
+langchain_pipeline: LangChainAcademicRAGPipeline = LangChainAcademicRAGPipeline(
+    workspace_path=repo_root
+)
+
 watcher: DynamicKnowledgeWatcher = DynamicKnowledgeWatcher(rag_pipeline=rag_engine)
 watcher.start(non_blocking=True)
 
 app: FastAPI = FastAPI(
     title="Academic RAG Synthesis Engine API",
-    description="Dynamic Grounding, Retrieval, and Report Generation Engine",
-    version="2.0.0",
+    description=("Dynamic Grounding, Hybrid LangChain Retrieval, and Report Engine"),
+    version="2.1.0",
 )
 
 app.add_middleware(
@@ -77,6 +82,7 @@ class QueryRequest(BaseModel):
 
     query: str = Field(..., example="IEEE 830 functional requirements and NFR metrics")
     top_k: int = Field(default=4, ge=1, le=20)
+    use_hybrid_langchain: bool = Field(default=False)
 
 
 class ParameterizedReportRequest(BaseModel):
@@ -112,26 +118,50 @@ def get_health() -> dict[str, Any]:
         "total_indexed_chunks": rag_engine.indexed_chunks_count,
         "embedding_model": rag_engine.config.embedding_model_name,
         "collection": rag_engine.config.collection_name,
+        "langchain_hybrid_active": True,
     }
 
 
 @app.post("/api/query", response_model=QueryResponse)
 def query_rag(request: QueryRequest) -> QueryResponse:
-    """Executes semantic cosine-similarity retrieval against ChromaDB."""
-    matches_raw = rag_engine.retrieve(query=request.query, top_k=request.top_k)
-    matches_list: list[QueryMatch] = [
-        QueryMatch(
-            content=str(m["content"]),
-            source=str(m["source"]),
-            page_or_slide=int(m["page_or_slide"]),
-            doc_type=str(m["doc_type"]),
+    """Executes semantic cosine-similarity or LangChain hybrid retrieval."""
+    if request.use_hybrid_langchain:
+        matched_docs = langchain_pipeline.retrieve_hybrid(
+            query=request.query,
+            top_k=request.top_k,
         )
-        for m in matches_raw
-    ]
-    formatted_context: str = rag_engine.retrieve_context(
-        query=request.query,
-        top_k=request.top_k,
-    )
+        matches_list = [
+            QueryMatch(
+                content=doc.page_content,
+                source=str(doc.metadata.get("source", "Unknown")),
+                page_or_slide=int(doc.metadata.get("slide_or_page", 1)),
+                doc_type=str(doc.metadata.get("doc_type", "document")),
+            )
+            for doc in matched_docs
+        ]
+        formatted_context = langchain_pipeline.retrieve_formatted_context(
+            query=request.query,
+            top_k=request.top_k,
+        )
+    else:
+        matches_raw = rag_engine.retrieve(
+            query=request.query,
+            top_k=request.top_k,
+        )
+        matches_list = [
+            QueryMatch(
+                content=str(m["content"]),
+                source=str(m["source"]),
+                page_or_slide=int(m["page_or_slide"]),
+                doc_type=str(m["doc_type"]),
+            )
+            for m in matches_raw
+        ]
+        formatted_context = rag_engine.retrieve_context(
+            query=request.query,
+            top_k=request.top_k,
+        )
+
     return QueryResponse(
         query=request.query,
         matches=matches_list,
@@ -170,7 +200,9 @@ def upload_document(file: UploadFile) -> dict[str, Any]:
 
 
 @app.post("/api/generate-report")
-def generate_custom_report(request: ParameterizedReportRequest) -> dict[str, Any]:
+def generate_custom_report(
+    request: ParameterizedReportRequest,
+) -> dict[str, Any]:
     """Dynamically computes FP/COCOMO metrics, synthesizes markdown,
     and compiles PDF deliverables.
     """
