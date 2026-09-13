@@ -78,3 +78,67 @@
 | :--- | :--- | :---: | :--- |
 | **WCAG 2.1 Principles (POUR)** | [W3C – Web Accessibility Perspectives (POUR)](https://www.youtube.com/watch?v=3f31oufqFSM) | W3C Web Accessibility (~8m) | Perceivable, Operable, Understandable, Robust |
 | **Color Contrast & Readability Ratios** | [Kevin Powell – Accessible Colors & WCAG Contrast](https://www.youtube.com/watch?v=H3XFwtb0lYc) | Kevin Powell (~12m) | $4.5:1$ for normal text, $3.0:1$ for large text/icons |
+
+---
+
+### Priority 6: Session 13 — Communicating with Users, Error Handling & Poka-Yoke
+* **Exam Weightage**: **8% – 10%** (Error Recovery & Form Design)
+
+| Topic / Concept | Recommended Video Link | Channel & Duration | Key Exam Focus |
+| :--- | :--- | :---: | :--- |
+| **Slips vs. Mistakes in HCI** | [NNgroup – Slips and Mistakes: The Two Types of Errors](https://www.youtube.com/watch?v=Fj2V7f5N1s4) | Nielsen Norman Group (~6m) | Action slips (capture, description slips) vs cognitive mistakes (rule/knowledge) |
+| **Poka-Yoke (Mistake-Proofing UI)** | [Interaction Design Foundation – Poka-Yoke in UX](https://www.youtube.com/results?search_query=Interaction+Design+Foundation+Poka+Yoke+UX) | IxDF (~8m) | Proactive constraints: disabling invalid buttons, smart defaults, input masks |
+| **Writing Effective Error Messages** | [NNgroup – How to Write Great Error Messages](https://www.youtube.com/watch?v=kYyY8v7b9xQ) | Nielsen Norman Group (~7m) | Plain language, non-blaming tone, explicit solution instructions |
+
+---
+
+### Priority 7: Session 06 — Personas, Mental Models & Norman's Gulfs
+* **Exam Weightage**: **8% – 10%** (User Research Artifacts)
+
+| Topic / Concept | Recommended Video Link | Channel & Duration | Key Exam Focus |
+| :--- | :--- | :---: | :--- |
+| **Creating UX Personas Step-by-Step** | [CareerFoundry – How to Create a UX Persona](https://www.youtube.com/watch?v=dv_h_j_1vV4) | CareerFoundry (~10m) | Demographics, goals, frustrations, technology confidence scale |
+| **Mental Models vs System Models** | [NNgroup – Mental Models in UX Design](https://www.youtube.com/watch?v=e_w77hA0v1w) | Nielsen Norman Group (~5m) | Why mismatches between user expectation and system mechanics cause errors |
+| **Gulf of Execution & Evaluation** | [UX Salon – Bridging Norman's Gulfs in HCI](https://www.youtube.com/results?search_query=Norman+Gulf+of+Execution+Evaluation+UX) | UX Salon (~8m) | Affordances/Signifiers bridge Execution; Feedback bridges Evaluation |
+
+---
+
+### Priority 8: Session 11 — Web UI Design, Visual Hierarchy & Hick-Hyman Law
+* **Exam Weightage**: **5% – 8%** (Layout & Information Architecture)
+
+| Topic / Concept | Recommended Video Link | Channel & Duration | Key Exam Focus |
+| :--- | :--- | :---: | :--- |
+| **F-Pattern vs Z-Pattern Reading Flow** | [NNgroup – F-Shaped Pattern of Reading on the Web](https://www.youtube.com/watch?v=3H_H7f2K_7Q) | Nielsen Norman Group (~6m) | Eye-tracking heatmaps: text-heavy (F) vs landing pages (Z) |
+| **Hick-Hyman Law Numerical** | [Gate Smashers – Hick's Law with Mathematical Formula](https://www.youtube.com/results?search_query=Gate+Smashers+Hicks+Law+in+HCI) | Gate Smashers (~10m) | Decision time formula $T = b \log_2(n+1)$, chunking choices |
+| **Visual Hierarchy & Typography** | [The Futur – Typography and Visual Hierarchy](https://www.youtube.com/watch?v=73_E8k_d1_4) | The Futur (~12m) | Scale, contrast, whitespace, visual weight in content cards |
+
+---
+
+### Priority 9: Session 16 — Emerging Trends: Conversational UI & VUI
+* **Exam Weightage**: **0% – 5%** (Voice & Multimodal)
+
+| Topic / Concept | Recommended Video Link | Channel & Duration | Key Exam Focus |
+| :--- | :--- | :---: | :--- |
+| **Voice User Interface (VUI) Principles** | [Google Design – Principles of Voice User Interface Design](https://www.youtube.com/watch?v=x7E2gL_1Y7o) | Google Design (~15m) | Turn-taking, concise speech responses, error recovery in audio |
+| **Conversational AI & Chatbot UX** | [NNgroup – Chatbots and Conversational UI Guidelines](https://www.youtube.com/watch?v=k_9Y_0x7b_I) | Nielsen Norman Group (~8m) | Setting expectations, hybrid GUI+chat fallback, progressive disclosure |
+
+---
+
+### Priority 10: Sessions 09 & 10 — Prototyping Fidelity & Figma
+* **Exam Weightage**: **0% – 5%** (Design Process)
+
+| Topic / Concept | Recommended Video Link | Channel & Duration | Key Exam Focus |
+| :--- | :--- | :---: | :--- |
+| **Low-Fidelity vs High-Fidelity Prototypes**| [NNgroup – UX Prototypes: Low Fidelity vs High Fidelity](https://www.youtube.com/watch?v=x_yZ_1_a2_M) | Nielsen Norman Group (~5m) | Paper sketch speed vs interactive behavioral testing trade-offs |
+| **Figma Component Architecture & Design Tokens** | [Figma – Design Systems & Component Variants](https://www.youtube.com/watch?v=y29Xwt9ZETw) | Figma (~12m) | Atomic design, reusable master components, auto-layout |
+
+---
+
+### Priority 11: Sessions 01 – 05 — HCI Foundations, Memory & Perception
+* **Exam Weightage**: **0% – 5%** (Theoretical Foundations)
+
+| Topic / Concept | Recommended Video Link | Channel & Duration | Key Exam Focus |
+| :--- | :--- | :---: | :--- |
+| **Usability Goals vs UX Goals** | [Gate Smashers – Usability vs User Experience (UX)](https://www.youtube.com/results?search_query=Gate+Smashers+Usability+vs+User+Experience) | Gate Smashers (~10m) | Efficiency, effectiveness, safety vs enjoyable, rewarding, engaging |
+| **Human Memory & Miller's Magic Number** | [NNgroup – Short-Term Memory and Web Usability](https://www.youtube.com/watch?v=9_d_8_7_5_I) | Nielsen Norman Group (~6m) | Short-term capacity $7 \pm 2$, chunking phone numbers & forms |
+| **Interaction Styles: CLI, WIMP to Touch** | [Gate Smashers – Interaction Styles in HCI](https://www.youtube.com/results?search_query=Gate+Smashers+Interaction+Styles+HCI) | Gate Smashers (~12m) | Command line vs GUI/WIMP vs direct touch manipulation |
